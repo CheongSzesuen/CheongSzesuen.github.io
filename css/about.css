@@ -32,13 +32,13 @@ body .entries .entry {
 body .entries .entry:not(:first-child) {
   margin-top: -60px;
 }
-body .entries .entry .title {
+body .entries .entry {
   font-size: 32px;
   margin-bottom: 12px;
   position: relative;
   color: #fff;
 }
-body .entries .entry .title:before {
+body .entries .entry :before {
   content: '';
   position: absolute;
   width: 8px;
@@ -52,7 +52,7 @@ body .entries .entry .title:before {
   right: -73px;
   z-index: 1000;
 }
-body .entries .entry .title.big:before {
+body .entries .entry :before {
   width: 24px;
   height: 24px;
   -webkit-transform: translate(8px, -50%);
@@ -74,4 +74,20 @@ body .entries .entry:nth-child(2n) .title:before {
 body .entries .entry:nth-child(2n) .title.big:before {
   -webkit-transform: translate(-8px, -50%);
           transform: translate(-8px, -50%);
+}
+body .TimelineTimeYear {
+    font-size: 12px;
+    line-height: 16px;
+    color: #f4f4f4;
+    text-align: right;
+    white-space: nowrap;
+    padding: 0 4px;
+}
+body .TimelineTimeYear {
+font-size: 16px;
+    line-height: 24px;
+    color: #f4f4f4;
+    text-align: center;
+    white-space: nowrap;
+    border-bottom: 5px solid #ffba52;
 }
