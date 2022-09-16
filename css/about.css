@@ -78,15 +78,15 @@ body .entries .entry:nth-child(2n) .title.big:before {
 body .TimelineTimeYear {
     font-size: 12px;
     line-height: 16px;
-    color: #f4f4f4;
+    color: white;
     text-align: right;
     white-space: nowrap;
     padding: 0 4px;
 }
-body .TimelineTimeYear {
-font-size: 16px;
+body .TimelineTimeDate {
+    font-size: 16px;
     line-height: 24px;
-    color: #f4f4f4;
+    color: white;
     text-align: center;
     white-space: nowrap;
     border-bottom: 5px solid #ffba52;
