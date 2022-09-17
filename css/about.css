@@ -1,93 +1,82 @@
-body {
-  background-color: #1D1D1D;
-  min-height: 100vh;
-  margin: 0;
-  font-family: 'Droid Sans', sans-serif;
+@import url('https://fonts.googleapis.com/css?family=Lato:300,400,700,900');
+
+* {
+	pading: 0;
+	margin: 0;
+	font-family: "Lato", sans-serif;
+	position: relative;
 }
-body:before {
-  content: '';
-  position: fixed;
-  top: 0px;
-  left: 50%;
-  bottom: 0px;
-  -webkit-transform: translateX(-50%);
-          transform: translateX(-50%);
-  width: 4px;
-  background-color: #fff;
+
+.timeline {
+	padding: 40px 0px;
+	width: 80%;
+	margin-left: 10%;
+	margin-bottom: 40px;
 }
-body .entries {
-  width: calc(100% - 80px);
-  max-width: 800px;
-  margin: auto;
-  position: relative;
-  left: -5px;
+
+.timeline:before {
+	content: "";
+	position: absolute;
+	top: 40px;
+	left: 65px;
+	width: 3px;
+	height: calc(100% - 80px);
+	background: #c0392b;
 }
-body .entries .entry {
-  width: calc(50% - 80px);
-  float: left;
-  padding: 20px;
-  clear: both;
-  text-align: right;
+
+.timeline .column {
+	margin: 40px 40px 40px 120px;
 }
-body .entries .entry:not(:first-child) {
-  margin-top: -60px;
+
+.timeline .column .title h1 {
+	font-size: 120px;
+	color: rgba(0,0,0,0.1);
+	font-family: serif;
+	letter-spacing: 3px;
 }
-body .entries .entry {
-  font-size: 32px;
-  margin-bottom: 12px;
-  position: relative;
-  color: #fff;
+
+.timeline .column .title h1:before {
+	content: "";
+	position: absolute;
+	left: -62px;
+	top: 86px;
+	width: 10px;
+	height: 10px;
+	background: #fff;
+	border: 3px solid #c0392b;
 }
-body .entries .entry :before {
-  content: '';
-  position: absolute;
-  width: 8px;
-  height: 8px;
-  border: 4px solid #ffffff;
-  background-color: #1D1D1D;
-  border-radius: 100%;
-  top: 50%;
-  -webkit-transform: translateY(-50%);
-          transform: translateY(-50%);
-  right: -73px;
-  z-index: 1000;
+
+.timeline .column .title h2 {
+	margin-top: -60px;
+	font-size: 33px;
 }
-body .entries .entry :before {
-  width: 24px;
-  height: 24px;
-  -webkit-transform: translate(8px, -50%);
-          transform: translate(8px, -50%);
+
+.timeline .column .description p {
+	font-size: 13px;
+	line-height: 20px;
+	margin-left: 20px;
+	margin-top: 10px;
+	font-family: serif;
 }
-body .entries .entry .body {
-  color: #aaa;
+
+.timeline .column .description {
+	border-left: 1px solid #000;
 }
-body .entries .entry .body p {
-  line-height: 1.4em;
+
+.main {
+	width: 80%;
+	margin-left: 10%;
+	margin-top: 80px;
 }
-body .entries .entry:nth-child(2n) {
-  text-align: left;
-  float: right;
+
+.main h1 {
+	font-size: 80px;
+	line-height: 60px;
 }
-body .entries .entry:nth-child(2n) .title:before {
-  left: -63px;
-}
-body .entries .entry:nth-child(2n) .title.big:before {
-  -webkit-transform: translate(-8px, -50%);
-          transform: translate(-8px, -50%);
-}
-body .TimelineTimeYear {
-    font-size: 12px;
-    line-height: 16px;
-    color: white;
-    text-align: right;
-    white-space: nowrap;
-    padding: 0 4px;
-}
-body .TimelineTimeDate {
-    font-size: 16px;
-    line-height: 24px;
-    color: white;
-    text-align: center;
-    white-space: nowrap;
-    border-bottom: 5px solid #ffba52;
+
+.main p {
+	font-size: 13px;
+	line-height: 20px;
+	font-family: serif;
+	text-align: right;
 }
