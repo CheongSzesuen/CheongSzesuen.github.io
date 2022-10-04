@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<link rel="stylesheet" type="text/css" href="css/jquery.mCustomScrollbar.css"/>
+		<link rel="stylesheet" type="text/css" href="css/music.css"/>
+		<script src="js/Jquery%20-%20副本.js" type="text/javascript" charset="utf-8"></script>
+		<script src="js/jquery.mCustomScrollbar.concat.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="js/player.js" type="text/javascript" charset="utf-8"></script>
+		<script src="js/progress.js" type="text/javascript" charset="utf-8"></script>
+		<script src="js/lyric.js" type="text/javascript" charset="utf-8"></script>
+		<script src="js/index.js" type="text/javascript" charset="utf-8"></script>
+		
+		
+	</head>
+	<body>
+		
+		<!-- 顶部模块 -->
+			<div class="header">
+				<div class="logo"><img src="images/player_logo.png" ></div>
+				<ul class="user">
+					<li>登录</li>
+					<li>注册</li>
+				</ul>
+			</div>
+			
+		<!-- 主体内容 -->
+			<div class="content">
+				<div class="in">
+					<div class="content-left">
+						<div class="content_toolbar">
+							<ul>
+								<li>
+									<i></i>
+									收藏
+								</li>
+								<li>
+									<i></i>
+									添加
+								</li>
+								<li>
+									<i></i>
+									下载
+								</li>
+								<li>
+									<i></i>
+									删除
+								</li>
+								<li>
+									<i></i>
+									打扫
+								</li>
+							</ul>
+						</div>
+						<div class="content_list" data-mcs-theme="minimal-dark">
+							<div class="list_head">
+								<span class="list_chack"><i></i></span>
+								<span class="list_number"></span>
+								<span class="list_name">歌曲</span>
+								<span class="list_singer">歌手</span>
+								<span class="list_time">时长</span>
+							</div>
+							<ul class="list_items">
+							
+							</ul>
+						</div>
+					</div>
+					<div class="content-right">
+						<div class="son_info">
+							<img src="source/SomethingJustLikeThis.jpg" class="song_Info_pic">
+							<div class="song_info_name">歌曲名称:
+								<a href="javeScript:;">我们的歌</a>
+							</div>
+							<div class="song_info_singer">歌手:
+								<a href="javeScript:;">栈</a>
+							</div>
+							<div class="song_info_ablum">专辑名:
+								<a href="javeScript:;">梦想</a>
+							</div>
+						</div>
+						<div class="song_lyric_box">
+							<ul class="song_lyric">
+								<!-- 歌词 -->
+							</ul>
+						</div>
+					</div>
+				</div>
+			</div>
+			
+		<!-- 底部模块 -->
+			<div class="footer">
+				<div class="in">
+					<a href="javaScript:;" class="music_pre"></a>
+					<a href="javaScript:;" class="music_play"></a>
+					<a href="javaScript:;" class="music_next"></a>
+					<div class="music_progress_info">
+						<div class="music_progress_info_top">
+							<span class="music_progress_name">gan</span>
+							<span class="music_progress_time">02:20</span>
+						</div>
+						<div class="music_progress_info_down">
+							<div class="music_progress_line">
+								<div class="music_progress_dot"></div>
+							</div>
+						</div>
+					</div>
+					<a href="javaScript:;" class="music_mode"></a>
+					<a href="javaScript:;" class="music_fav"></a>
+					<a href="javaScript:;" class="music_down"></a>
+					<a href="javaScript:;" class="music_comment"></a>
+					<a href="javaScript:;" class="music_only"></a>
+					<div class="music_voice_info">
+						<a href="javaScript:;" class="music_voice_icon"></a>
+						<div class="music_voice_down">
+							<div class="music_voice_line">
+								<div class="music_voice_dot"></div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+	
+		<!-- 背景模块 -->
+		<div class="mask_bg"></div>
+		<div class="mask"></div>
+		
+		<!-- 播放标签 -->
+		<audio src="source/凉凉.mp3" id="audio" ></audio>
+	</body>
+</html>
