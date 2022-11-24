@@ -4,12 +4,6 @@
     box-sizing: border-box;
 }
 
-@font-face {
-    font-family: 'thenautigal rob';
-    src:url('/sans/HarmonyOS Sans/HarmonyOS_Sans/HarmonyOS_Sans_Bold.ttf');
-    /*或者写完整路径: */
-    /* src:url('http://www.a.cn/web/thenautigal rob.ttf'); */ 
-}
 
 html {
     height: 100%
