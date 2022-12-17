@@ -785,12 +785,9 @@ footer  p a:hover{
 }
  /*--main-content--*/
 .music-left{
- float:
- left;
- width: 65%;
+ float:left;
+ width:65%;
 }
-
-.music-left {}
 .music-right{
  float:left;
  width:33%;
@@ -1257,8 +1254,6 @@ a.top-sign {
 /*--albums--*/
 .albums {
   padding: 4em 0 0 0;
-  /* height: 100%; */
-  /* width: auto; */
 }
 .content-grid img {
     width: 100%;
@@ -1517,7 +1512,20 @@ h3.hd-tittle {
     font-size: 1.6em;
     margin-bottom: 1em;
 }
-
+/*--//pricing_table--*/
+.apps {
+    background: #222;
+    padding: 2.3em 2em;
+    border-radius: 0.3em;
+    -o-border-radius: 0.3em;
+    -moz-border-radius: 0.3em;
+    -webkit-border-radius: 0.3em;
+    margin: 1.4em 0;
+}
+.banner-button {
+    float: left;
+       width: 45.8%;
+}
 .green-button {
     margin: 0 1em;
 }
@@ -1885,7 +1893,9 @@ p.email span:hover{
 .nbs-flexisel-nav-right {
 	display:none;
 }	
-.review-slider {margin-top: 1.4em;/* width: auto; */}
+.review-slider {
+margin-top: 1.4em;
+}
 .slide-title h4 {
 	padding: 10px 8px;
 	color: #444;
