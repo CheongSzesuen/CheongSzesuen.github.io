@@ -1,3 +1,14 @@
+@font-face {
+	font-family: 'HarmonyOS_Sans';
+	src: url('/sans/HarmonyOS_Sans_SC_Medium.eot');
+	src: url('/sans/HarmonyOS_Sans_SC_Medium.eto') format('embedded-opentype'), 
+		 url('/sans/HarmonyOS_Sans_SC_Medium.woff') format('woff'), 
+		 url('/sans/HarmonyOS_Sans_SC_Medium.ttf') format('truetype'), 
+		 url('/sans/HarmonyOS_Sans_SC_Medium.svg') format('svg');
+	font-weight: normal;
+	font-style: normal;
+  }
+
 * {
     box-sizing: border-box;
     outline: 0;
@@ -17,11 +28,11 @@ body {
     /*background:url(https://w.wallhaven.cc/full/nr/wallhaven-nrd5pw.jpg) no-repeat;
 	background:url(/wallpaper/wallpaper.webp) no-repeat;*/
     background:url(https://cheongszesuen.ml/wallpaper/wallpaper.webp) no-repeat;
-		-webkit-background-size: cover;
-		-o-background-size: cover;
-		background-size: cover;
-        /*background-attachment: fixed;*/
-    font-family: "PingFang SC","Microsoft Yahei","Helvetica Neue",Helvetica,"Segoe UI",Arial,sans-serif;
+    -webkit-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+    /* background-attachment: fixed; */
+    font-family: "HarmonyOS_Sans", sans-serif;
     cursor: default;
     -webkit-tap-highlight-color: transparent;
     user-select: none
@@ -54,6 +65,7 @@ a.link:active {
 
 p {
     transition: .25s;
+    font-family: "HarmonyOS_Sans", sans-serif;
 }
 
 #main{
@@ -110,7 +122,8 @@ height:auto;
     margin-top: -30px;
     width: 70px;
     height: 4px;
-    background-color: #91b0b7
+    background-color: #91b0b7;
+    border-radius:20px;
 }
 
 .underline1 {
@@ -124,12 +137,14 @@ height:auto;
 
 h1 {
     font-weight: 400;
-    font-size: 76px;
+    font-family: "HarmonyOS_Sans", sans-serif;
+    font-size: 80px;
     color: #e0d3bc
 }
 
 h2 {
     font-weight: 400;
+    font-family: "HarmonyOS_Sans", sans-serif;
     font-size: 15px;
     color: #e0d3bc
 }
@@ -139,17 +154,20 @@ h2 span {
 }
 
 h3 {
+    font-family: "HarmonyOS_Sans", sans-serif;
     font-size: 30px;
     color: var(--txt-b-pure);
     transition: .25s
 }
 
 h4 {
+    font-family: "HarmonyOS_Sans", sans-serif;
     color: var(--txt-b-pure);
     font-size: 28px
 }
 
 h5 {
+    font-family: "HarmonyOS_Sans", sans-serif;
     color: var(--txt-b-pure);
     font-size: 24px;
     text-align: center
@@ -175,6 +193,7 @@ h5 {
 }
 
 #footer p{
+    font-family: "HarmonyOS_Sans", sans-serif;
     font-size: 5px;
     font-weight: 700;
     line-height: 10px;
@@ -182,6 +201,7 @@ h5 {
 }
 
 #footer a{
+    font-family: "HarmonyOS_Sans", sans-serif;
     position: relative;
     border-bottom: 1px solid transparent;
     color: black;
@@ -227,3 +247,167 @@ div ::-webkit-scrollbar-thumb:active {
 #toPirates {
     display: none
 }
+
+ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    font-family: "HarmonyOS_Sans", sans-serif;
+    font-size: 50%;
+    backdrop-filter: blur(50px);
+    position: -webkit-sticky;
+    position: sticky;
+    top:0;
+    border-radius: 20px;
+  }
+  
+  li {
+    float: left;
+  }
+  
+  li a {
+    display: block;
+    color: white;
+    text-align: center;
+    padding: 15px 18px;
+    text-decoration: none;
+    border-radius: 20px;
+  }
+  
+  li a:hover {
+    background-color:#839ba5;
+  }
+  
+  .active {
+    background-color:#42617e;
+    border-radius: 20px;
+  }
+  
+  li.right {
+      float: right;
+      }
+  
+  @media screen and (max-width: 350px) {
+    ul.topnav li.right, 
+    ul.topnav li {float: none;}
+  }
+      
+  .footer {
+    position: relative;
+    width: 100%;
+    background: #3586ff;
+    min-height: 100px;
+    padding: 20px 50px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+  }
+  
+  .social-icon,
+  .menu {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 10px 0;
+    flex-wrap: wrap;
+  }
+  
+  .social-icon__item,
+  .menu__item {
+    list-style: none;
+  }
+  
+  .social-icon__link {
+    font-family: "HarmonyOS_Sans", sans-serif;
+    font-size: 2rem;
+    color: #fff;
+    margin: 0 10px;
+    display: inline-block;
+    transition: 0.5s;
+  }
+  .social-icon__link:hover {
+    transform: translateY(-10px);
+  }
+  
+  .menu__link {
+    font-size: 1.2rem;
+    color: #fff;
+    margin: 0 10px;
+    display: inline-block;
+    transition: 0.5s;
+    text-decoration: none;
+    opacity: 0.75;
+    font-weight: 300;
+  }
+  
+  .menu__link:hover {
+    opacity: 1;
+  }
+  
+  .footer p {
+    color: #fff;
+    margin: 15px 0 10px 0;
+    font-family: "HarmonyOS_Sans", sans-serif;
+    font-size: 1rem;
+    font-weight: 300;
+  }
+  
+  .wave {
+    position: absolute;
+    top: -100px;
+    left: 0;
+    width: 100%;
+    height: 100px;
+    background: url("https://i.ibb.co/wQZVxxk/wave.png");
+    background-size: 1000px 100px;
+  }
+  
+  .wave#wave1 {
+    z-index: 1000;
+    opacity: 1;
+    bottom: 0;
+    animation: animateWaves 4s linear infinite;
+  }
+  
+  .wave#wave2 {
+    z-index: 999;
+    opacity: 0.5;
+    bottom: 10px;
+    animation: animate 4s linear infinite !important;
+  }
+  
+  .wave#wave3 {
+    z-index: 1000;
+    opacity: 0.2;
+    bottom: 15px;
+    animation: animateWaves 3s linear infinite;
+  }
+  
+  .wave#wave4 {
+    z-index: 999;
+    opacity: 0.7;
+    bottom: 20px;
+    animation: animate 3s linear infinite;
+  }
+  
+  @keyframes animateWaves {
+    0% {
+      background-position-x: 1000px;
+    }
+    100% {
+      background-positon-x: 0px;
+    }
+  }
+  
+  @keyframes animate {
+    0% {
+      background-position-x: -1000px;
+    }
+    100% {
+      background-positon-x: 0px;
+    }
+  }
+  

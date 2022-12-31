@@ -1,12 +1,18 @@
 @import url('https://fonts.googleapis.com/css?family=Lato:300,400,700,900');
-@font-face{
-	font-family: HarmonySans;
-	src:url(/sans/HarmonyOS/HarmonyOS_Sans/HarmonyOS_Sans_Bold.ttf)
-}
+@font-face {
+	font-family: 'HarmonyOS_Sans';
+	src: url('/sans/HarmonyOS_Sans_SC_Medium.eot');
+	src: url('/sans/HarmonyOS_Sans_SC_Medium.eto') format('embedded-opentype'), 
+		 url('/sans/HarmonyOS_Sans_SC_Medium.woff') format('woff'), 
+		 url('/sans/HarmonyOS_Sans_SC_Medium.ttf') format('truetype'), 
+		 url('/sans/HarmonyOS_Sans_SC_Medium.svg') format('svg');
+	font-weight: normal;
+	font-style: normal;
+  }
 * {
 	padding: 0;
 	margin: 0;
-	font-family: "Lato", sans-serif;
+	font-family: "HarmonyOS_Sans";
 	position: relative;
 }
 
@@ -34,7 +40,7 @@
 .timeline .column .title h1 {
 	font-size: 120px;
 	color: rgba(0,0,0,0.1);
-	font-family: serif;
+	font-family: "HarmonyOS_Sans", sans-serif;
 	letter-spacing: 3px;
 }
 
@@ -59,7 +65,7 @@
 	line-height: 20px;
 	margin-left: 20px;
 	margin-top: 10px;
-	font-family: serif;
+	font-family: "HarmonyOS_Sans", sans-serif;
 }
 
 .timeline .column .description {
@@ -80,6 +86,6 @@
 .main p {
 	font-size: 13px;
 	line-height: 20px;
-	font-family: serif;
+	font-family: "HarmonyOS_Sans", sans-serif;
 	text-align: right;
 }
