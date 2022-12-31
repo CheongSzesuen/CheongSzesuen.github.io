@@ -242,14 +242,14 @@ div#page-wrapper {
 }
 
 .custom-nav > li.nav-active > a:hover {
-    
+    none
 }
 
 .custom-nav > li.active > a,
 .custom-nav > li.active > a:hover,
 .custom-nav > li.active > a:focus {
     background-color: #111;
-    color:#EA57A3;
+    color: #EA57A3;
 }
 
 ul.dropdown-menu.drp-mnu li {
@@ -1208,7 +1208,7 @@ fieldset#body {
   padding: 6px;
   font-size: 0.8125em;
   -webkit-apperance: none;
-  outline: none
+  outline: none;
   font-family: 'Open Sans', sans-serif;
 }
 #body label i {
