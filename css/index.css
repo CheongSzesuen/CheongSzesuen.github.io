@@ -22,10 +22,13 @@ html {
 
 body {
     font-family: "HarmonyOS_Sans", sans-serif;
-    /*background:url(https://w.wallhaven.cc/full/nr/wallhaven-nrd5pw.jpg) no-repeat;
-	background:url(/wallpaper/wallpaper.webp) no-repeat;*/
+    /*background:url(https://w.wallhaven.cc/full/nr/wallhaven-nrd5pw.jpg) no-repeat;*/
+	/*background:url(/wallpaper/wallpaper.webp) no-repeat;*/
     /* background:url(https://cheongszesuen.ml/wallpaper/wallpaper.webp) no-repeat; */
     background:url(http://tool.liumingye.cn/bingimg/img.php) no-repeat;
+    /*background:url(http://47.111.254.61:8000/bingWp) no-repeat;*/
+    /*background:url(http://api.muvip.cn/api/bing) no-repeat;*/
+    /*background:url(https://api.leafone.cn/api/bing) no-repeat;*/
     -webkit-background-size: cover;
     -o-background-size: cover;
     background-size: cover;

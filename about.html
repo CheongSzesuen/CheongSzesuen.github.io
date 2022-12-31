@@ -247,7 +247,7 @@
 				</div>
 				<div class="description">
 					<p>问题出在我想要背景图模糊一点，因为每日bing图色彩不固定，可能不易读。可以添加filter: blur(5px);的CSS属性，但是原本的背景图在CSS的body下，如果直接添加filter:blur(px)，会连同字也模糊掉。试图将图片的属性做一个CSS，再在html里创建一个div然后附上图片的属性，但问题出在“如何让这个图片覆盖全屏”，“如何让不同尺寸的设备看到图片中间的位置”。我学习青柠起始页的代码，发现现有一个div包裹img标签，可是问题就出在这个div的属性，我找到css对应的，发现几行关键的。“overflow-x: hidden;”这行似乎可以让不同尺寸的设备都看到中间的，“width: 100%;”这行似乎可以让图片左右覆盖。“    background-size: auto; background-position: center; background-attachment: fixed;”这几行我猜可以让图片全屏，但我发现不行。<br>
-					但是有个发现，只要background-attachment: fixed;就可以让图片不跟随滚动，滚动的时候就像下边的渐渐覆盖它一样。</p>
+					但是有个发现，只要background-attachment: fixed;就可以让图片不跟随滚动，滚动的时候就像下边的渐渐覆盖它一样。<br>现在先暂时把网站还原回，然后再改下图片地址，用的是http://tool.liumingye.cn/bingimg/img.php这个链接。在背景图中有几个被注释掉的api接口，可以直接用。网上也能搜到一大堆。</p>
 				</div>
 			</div>
 			<div class="column">
