@@ -9,7 +9,7 @@
 body{
     /* 100%窗口高度 */
     height: 100vh;
-    background:url("https://cheongszesuen.github.io/images/XNKL/XNKL.webp") no-repeat;
+    background:url("/images/XNKL/XNKL.webp") no-repeat;
     background-size: cover;
     background-position: center;
     /* 溢出隐藏 */
