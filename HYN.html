@@ -5,8 +5,8 @@
     <meta http-equiv="content-type" content="text/html; charset=utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
 
-    <title>新年快乐 | Happy New Year's Day</title>
-    <link rel="stylesheet" href="/css/XNKL.css">
+    <title>新年快乐 | Happy New Year</title>
+    <link rel="stylesheet" href="/css/HNY.css">
     <link rel="shortcut icon" href="favicon.png">
 </head>
 
@@ -16,8 +16,14 @@
         <div class="greetings">新年快乐！</div>
     </div>
     <!--烟花-->
-    <script src="/js/XNKL/vector.js"></script>
-    <script src="/js/XNKL/fireworks.js"></script>
+    <script src="/js/HNY/vector.js"></script>
+    <script src="/js/HNY/fireworks.js"></script>
 </body>
-
+<script>
+    function Year() {
+  var d = new Date();
+  var n = d.getFullYear();
+  document.getElementById("demo").innerHTML = n;
+}
+</script>
 </html>
