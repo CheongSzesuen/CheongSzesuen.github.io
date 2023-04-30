@@ -9,7 +9,7 @@
 body{
     /* 100%窗口高度 */
     height: 100vh;
-    background:url("../images/HNY/XNKL.webp") no-repeat;
+    background:url("../images/HNY/1.webp") no-repeat;
     background-size: cover;
     background-position: center;
     /* 溢出隐藏 */
@@ -36,12 +36,13 @@ canvas{
     /* 字体设置为上面引入的字体 */
     font-family: Montserrat;
     font-weight: 700;
+    font-size: 50%;
     /* 字间距 */
     letter-spacing: 15px;
 }
 .greetings{
     color: #eee;
-    font-size: 3.5vw;
+    font-size: 50%;
     font-weight: bold;
     text-align: center;
     letter-spacing: 10px;
