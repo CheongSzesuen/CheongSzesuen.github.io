@@ -22,10 +22,10 @@ html {
 
 body {
     font-family: "HarmonyOS_Sans", sans-serif;
-    /*background:url(https://w.wallhaven.cc/full/nr/wallhaven-nrd5pw.jpg) no-repeat;*/
-	  /*background:url(/wallpaper/wallpaper.webp) no-repeat;*/
+    background:url(https://w.wallhaven.cc/full/nr/wallhaven-nrd5pw.jpg) no-repeat;
+    background:url(/wallpaper/wallpaper.webp) no-repeat;
     background:url(http://tool.liumingye.cn/bingimg/img.php) no-repeat;
-    /*background:url(http://47.111.254.61:8000/bingWp) no-repeat;*/
+    /* background:url(http://47.111.254.61:8000/bingWp) no-repeat; */
     -webkit-background-size: cover;
     -o-background-size: cover;
     background-size: cover;
@@ -34,7 +34,7 @@ body {
     width: 100%;
     max-width: 100%;
     margin: 0;
-    overflow-x: hidden;
+    /* overflow-x: hidden; */
     cursor: default;
     -webkit-tap-highlight-color: transparent;
     user-select: none;
@@ -206,7 +206,7 @@ h5 {
     width: 100%;
     padding-top: 80px;
     padding-bottom: 100px;
-    text-align: center;
+    /* text-align: center; */
     transition: .25s
 }
 
@@ -351,12 +351,12 @@ ul {
     font-family: "HarmonyOS_Sans", sans-serif;
     font-size: 2rem;
     color: #fff;
-    margin: 0 10px;
+    margin: 10 10px;
     display: inline-block;
     transition: 0.5s;
   }
   .social-icon__link:hover {
-    transform: translateY(-10px);
+    transform: scale(1.2,1.2);
   }
   
   .menu__link {
