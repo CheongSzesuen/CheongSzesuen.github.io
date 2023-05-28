@@ -1,0 +1,128 @@
+body,
+div {
+    margin: 0;
+    padding: 0;
+}
+
+html,
+body {
+    height: 100%;
+}
+
+body {
+    background-color: #000;
+    color: #fff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.wrapper {
+    width: 80%;
+    height: 80%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.item {
+    width: 16%;
+    height: 100%;
+    background-color: #333;
+    border-radius: 20px;
+    overflow: hidden;
+    transition: height .5s linear, width .5s linear .5s;
+}
+
+.inner {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    transition: all 0.5s linear;
+}
+
+.bg {
+    height: 100%;
+    background-size: cover;
+    background-position: center;
+    cursor: pointer;
+    opacity: .5;
+}
+
+.inner:hover .bg {
+    opacity: 1;
+}
+
+.item:nth-of-type(1) .bg {
+    background-image: url(../image/1.jpg);
+}
+
+.item:nth-of-type(2) .bg {
+    background-image: url(../image/2.jpg);
+}
+
+.item:nth-of-type(3) .bg {
+    background-image: url(../image/3.jpg);
+}
+
+.item:nth-of-type(4) .bg {
+    background-image: url(../image/4.jpg);
+}
+
+.item:nth-of-type(5) .bg {
+    background-image: url(../image/5.jpg);
+}
+
+.item:nth-of-type(6) .bg {
+    background-image: url(../image/6.jpg);
+}
+
+.image-text {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translateX(-50%);
+    font-size: 20px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.mask {
+    width: 100%;
+    height: 30px;
+    display: flex;
+    box-sizing: border-box;
+    padding: 0 30px;
+    position: absolute;
+    justify-content: space-between;
+    align-items: center;
+    top: 50px;
+    font-size: 24px;
+    opacity: 0;
+}
+
+.close {
+    font-size: 42px;
+    cursor: pointer;
+}
+
+.mask-show {
+    opacity: 1;
+    transition: .5s linear 1s;
+}
+
+.mask-show .close {
+    transform: rotate(360deg);
+    transition: .5s linear 1s;
+}
+
+.on {
+    width: 100%;
+    height: 100%;
+}
+
+.hide {
+    width: 0;
+    height: 0;
+    /* transition: width .5s linear, height .5s linear .5s; */
+}
