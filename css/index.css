@@ -356,7 +356,7 @@ ul {
     transition: 0.5s;
   }
   .social-icon__link:hover {
-    transform: scale(1.2,1.2);
+    transform: translateY(-10px);
   }
   
   .menu__link {
