@@ -34,7 +34,7 @@ body {
     width: 100%;
     max-width: 100%;
     margin: 0;
-    /*overflow-x: hidden; */
+    overflow-x: hidden; 
     cursor: default;
     -webkit-tap-highlight-color: transparent;
     user-select: none;
@@ -351,7 +351,7 @@ ul {
     font-family: "HarmonyOS_Sans", sans-serif;
     font-size: 2rem;
     color: #fff;
-    margin: 10 10px;
+    margin: 0 10px;
     display: inline-block;
     transition: 0.5s;
   }
