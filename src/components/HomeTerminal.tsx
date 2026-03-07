@@ -198,12 +198,10 @@ function HomeTerminal() {
     const cols = asciiRows.reduce((max, row) => Math.max(max, row.length), 0);
     if (!rows || !cols) return;
 
-    const baseLineHeight = 1.18;
+    const baseLineHeight = 1;
     const baseCellWidth = 0.62;
-    const minFontSize = 1.6;
-    const maxFontSize = 10;
-    const minBodyWidth = 320;
-    const minAvatarWidth = 180;
+    const minFontSize = 2;
+    const maxFontSize = 14;
 
     const updateLayout = () => {
       if (window.innerWidth <= 768) {
@@ -216,21 +214,11 @@ function HomeTerminal() {
       const bodyEl = bodyRef.current;
       if (!terminalEl || !bodyEl) return;
 
-      const terminalRect = terminalEl.getBoundingClientRect();
       const bodyHeight = bodyRef.current?.getBoundingClientRect().height ?? 0;
       if (!bodyHeight) return;
 
-      const computed = window.getComputedStyle(terminalEl);
-      const gap = Number.parseFloat(computed.columnGap || computed.gap || "0") || 0;
-
-      const ratio = (cols * baseCellWidth) / (rows * baseLineHeight);
-      const desiredAvatarWidth = bodyHeight * ratio;
-      const maxAvatarWidth = Math.max(minAvatarWidth, terminalRect.width - gap - minBodyWidth);
-      const avatarWidth = Math.min(desiredAvatarWidth, maxAvatarWidth);
-
-      const heightBasedFont = bodyHeight / (rows * baseLineHeight);
-      const widthBasedFont = avatarWidth / (cols * baseCellWidth);
-      const nextFontSize = Math.max(minFontSize, Math.min(maxFontSize, Math.min(heightBasedFont, widthBasedFont)));
+      const nextFontSize = Math.max(minFontSize, Math.min(maxFontSize, bodyHeight / (rows * baseLineHeight)));
+      const avatarWidth = cols * baseCellWidth * nextFontSize;
 
       setAsciiStyle((prev) => {
         const next: CSSProperties = {
