@@ -29,11 +29,23 @@ body {
 }
 
 .page {
+  position: relative;
+  isolation: isolate;
   min-height: 100svh;
 }
 
 html {
   scroll-behavior: smooth;
+}
+
+.page__bg {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  background:
+    radial-gradient(125% 125% at 50% 100%, #000 20%, rgba(108, 130, 255, 0.36) 100%),
+    #000;
 }
 
 .topbar {
@@ -201,17 +213,6 @@ html {
   position: relative;
   min-height: 100svh;
   overflow: hidden;
-  isolation: isolate;
-  background: var(--bg);
-}
-
-.hero__bg {
-  position: absolute;
-  inset: 0;
-  z-index: 0;
-  background:
-    radial-gradient(125% 125% at 50% 100%, #000 20%, rgba(108, 130, 255, 0.36) 100%),
-    #000;
 }
 
 .hero__grid {
@@ -272,22 +273,6 @@ html {
 .scroll-content {
   position: relative;
   z-index: 1;
-}
-
-.scroll-content::before {
-  content: "";
-  position: absolute;
-  left: 0;
-  right: 0;
-  top: -120px;
-  height: 160px;
-  pointer-events: none;
-  background: linear-gradient(
-    to bottom,
-    rgba(5, 7, 11, 0) 0%,
-    rgba(5, 7, 11, 0.55) 45%,
-    var(--bg) 100%
-  );
 }
 
 .anchor-section {

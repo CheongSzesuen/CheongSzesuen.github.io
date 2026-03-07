@@ -92,6 +92,12 @@ function App() {
 
   return (
     <div className="page">
+      <div className="page__bg" aria-hidden="true">
+        <div className="hero__grid" />
+        <div className="hero__glow" />
+        <div className="hero__vignette" />
+      </div>
+
       <header className={`topbar ${showHeader ? "is-visible" : ""}`} aria-label="main-header">
         <div className="topbar__fade" aria-hidden="true" />
         <div className="topbar__inner">
@@ -119,12 +125,6 @@ function App() {
       </header>
 
       <section id="home" className="hero" aria-label="first-screen">
-        <div className="hero__bg" aria-hidden="true">
-          <div className="hero__grid" />
-          <div className="hero__glow" />
-          <div className="hero__vignette" />
-        </div>
-
         <div className="hero__content">
           <p className="hero__tag">Phase 01</p>
           <h1 className="hero__title">WaiJade</h1>
