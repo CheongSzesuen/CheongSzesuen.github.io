@@ -19,7 +19,8 @@ type TerminalEntry = {
 type SocialLink = {
   href: string;
   label: string;
-  symbol: string;
+  icon: "gmail" | "github" | "bilibili";
+  color: string;
   external?: boolean;
 };
 
@@ -32,12 +33,28 @@ type ActionLink = {
 const quoteOptions = ["Stay Hungry,Stay Foolish.", "Open source drives development."] as const;
 
 const socialLinks: SocialLink[] = [
-  { href: "mailto:WaiJade@outlook.com", label: "Email", symbol: "@" },
-  { href: "https://github.com/WaiJade", label: "GitHub", symbol: "GH", external: true },
-  { href: "https://x.com", label: "X", symbol: "X", external: true },
-  { href: "https://www.bilibili.com", label: "Bilibili", symbol: "B", external: true },
-  { href: "https://t.me", label: "Telegram", symbol: "TG", external: true }
+  {
+    href: "mailto:X2430442963X@gmail.com",
+    label: "Gmail",
+    icon: "gmail",
+    color: "rgb(234 67 53)"
+  },
+  {
+    href: "https://github.com/CheongSzesuen",
+    label: "CheongSzesuen",
+    icon: "github",
+    color: "rgb(255 255 255)",
+    external: true
+  },
+  {
+    href: "https://space.bilibili.com/544038785",
+    label: "Bilibili",
+    icon: "bilibili",
+    color: "rgb(0 161 214)",
+    external: true
+  }
 ] as const;
+// 已按要求注释：X、Telegram 与其它图标按钮（注释中不保留链接）。
 
 const actionLinks: ActionLink[] = [
   { href: "#about", label: "About" },
@@ -117,13 +134,46 @@ function parseAvatarPayload(payload: AnsiAvatarPayload): AsciiCell[][] {
   );
 }
 
+function renderSocialIcon(icon: SocialLink["icon"]) {
+  if (icon === "gmail") {
+    return (
+      <svg viewBox="0 0 24 24" aria-hidden="true">
+        <path
+          fill="currentColor"
+          d="M24 5.457v13.909c0 .904-.732 1.636-1.636 1.636h-3.819V11.73L12 16.64l-6.545-4.91v9.273H1.636A1.636 1.636 0 0 1 0 19.366V5.457c0-2.023 2.309-3.178 3.927-1.964L5.455 4.64L12 9.548l6.545-4.91l1.528-1.145C21.69 2.28 24 3.434 24 5.457"
+        />
+      </svg>
+    );
+  }
+
+  if (icon === "github") {
+    return (
+      <svg viewBox="0 0 24 24" aria-hidden="true">
+        <path
+          fill="currentColor"
+          d="M12 .297c-6.63 0-12 5.373-12 12c0 5.303 3.438 9.8 8.205 11.385c.6.113.82-.258.82-.577c0-.285-.01-1.04-.015-2.04c-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729c1.205.084 1.838 1.236 1.838 1.236c1.07 1.835 2.809 1.305 3.495.998c.108-.776.417-1.305.76-1.605c-2.665-.3-5.466-1.332-5.466-5.93c0-1.31.465-2.38 1.235-3.22c-.135-.303-.54-1.523.105-3.176c0 0 1.005-.322 3.3 1.23c.96-.267 1.98-.399 3-.405c1.02.006 2.04.138 3 .405c2.28-1.552 3.285-1.23 3.285-1.23c.645 1.653.24 2.873.12 3.176c.765.84 1.23 1.91 1.23 3.22c0 4.61-2.805 5.625-5.475 5.92c.42.36.81 1.096.81 2.22c0 1.606-.015 2.896-.015 3.286c0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"
+        />
+      </svg>
+    );
+  }
+
+  return (
+    <svg viewBox="0 0 24 24" aria-hidden="true">
+      <path
+        fill="currentColor"
+        d="M17.813 4.653h.854q2.266.08 3.773 1.574Q23.946 7.72 24 9.987v7.36q-.054 2.266-1.56 3.773c-1.506 1.507-2.262 1.524-3.773 1.56H5.333q-2.266-.054-3.773-1.56C.053 19.614.036 18.858 0 17.347v-7.36q.054-2.267 1.56-3.76t3.773-1.574h.774l-1.174-1.12a1.23 1.23 0 0 1-.373-.906q0-.534.373-.907l.027-.027q.4-.373.92-.373t.92.373L9.653 4.44q.107.106.187.213h4.267a.8.8 0 0 1 .16-.213l2.853-2.747q.4-.373.92-.373c.347 0 .662.151.929.4s.391.551.391.907q0 .532-.373.906zM5.333 7.24q-1.12.027-1.88.773q-.76.748-.786 1.894v7.52q.026 1.146.786 1.893t1.88.773h13.334q1.12-.026 1.88-.773t.786-1.893v-7.52q-.026-1.147-.786-1.894t-1.88-.773zM8 11.107q.56 0 .933.373q.375.374.4.96v1.173q-.025.586-.4.96q-.373.375-.933.374c-.56-.001-.684-.125-.933-.374q-.375-.373-.4-.96V12.44q0-.56.386-.947q.387-.386.947-.386m8 0q.56 0 .933.373q.375.374.4.96v1.173q-.025.586-.4.96q-.373.375-.933.374c-.56-.001-.684-.125-.933-.374q-.375-.373-.4-.96V12.44q.025-.586.4-.96q.373-.373.933-.373"
+      />
+    </svg>
+  );
+}
+
 function HomeTerminal() {
   const [randomQuote] = useState(
     () => quoteOptions[Math.floor(Math.random() * quoteOptions.length)]
   );
   const terminalEntries = useMemo<TerminalEntry[]>(
     () => [
-      { text: "[ Frountend Developer ]", tone: "role" },
+      { text: "[ Frontend Developer ]", tone: "role" },
       { text: randomQuote, tone: "quote" },
       { text: "// VibeCoding Enjoyer", tone: "note" }
     ],
@@ -361,19 +411,25 @@ function HomeTerminal() {
         </div>
 
         <div className="home-terminal__social" aria-label="social-links">
-          {socialLinks.map((link) => (
+          {socialLinks.map((link, index) => (
             <a
               key={link.label}
               className="home-terminal__social-link"
               href={link.href}
               aria-label={link.label}
+              title={link.label}
               target={link.external ? "_blank" : undefined}
               rel={link.external ? "noreferrer" : undefined}
+              style={
+                {
+                  "--social-color": link.color,
+                  animationDelay: `${0.6 + index * 0.1}s`
+                } as CSSProperties
+              }
             >
-              <span className="home-terminal__social-symbol" aria-hidden="true">
-                {link.symbol}
+              <span className="home-terminal__social-icon" aria-hidden="true">
+                {renderSocialIcon(link.icon)}
               </span>
-              <span className="home-terminal__social-label">{link.label}</span>
             </a>
           ))}
         </div>
