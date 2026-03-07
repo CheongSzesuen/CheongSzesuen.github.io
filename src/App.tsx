@@ -1,11 +1,57 @@
+import { useEffect, useState } from "react";
+
 const navItems = [
-  { label: "Home", href: "#home" },
-  { label: "About", href: "#about" },
-  { label: "Works", href: "#works" },
-  { label: "Friends", href: "#friends" }
-];
+  { id: "home", label: "Home", href: "#home" },
+  { id: "about", label: "About", href: "#about" },
+  { id: "works", label: "Works", href: "#works" },
+  { id: "friends", label: "Friends", href: "#friends" }
+] as const;
 
 function App() {
+  const [activeSection, setActiveSection] = useState<(typeof navItems)[number]["id"]>("home");
+
+  useEffect(() => {
+    const sections = navItems
+      .map((item) => document.getElementById(item.id))
+      .filter((section): section is HTMLElement => Boolean(section));
+    if (!sections.length) return;
+
+    let ticking = false;
+
+    const updateActiveSection = () => {
+      const marker = window.scrollY + window.innerHeight * 0.35;
+      let current = sections[0].id as (typeof navItems)[number]["id"];
+
+      for (const section of sections) {
+        if (section.offsetTop - 96 <= marker) {
+          current = section.id as (typeof navItems)[number]["id"];
+        } else {
+          break;
+        }
+      }
+
+      setActiveSection((prev) => (prev === current ? prev : current));
+    };
+
+    const onScrollOrResize = () => {
+      if (ticking) return;
+      ticking = true;
+      window.requestAnimationFrame(() => {
+        updateActiveSection();
+        ticking = false;
+      });
+    };
+
+    updateActiveSection();
+    window.addEventListener("scroll", onScrollOrResize, { passive: true });
+    window.addEventListener("resize", onScrollOrResize);
+
+    return () => {
+      window.removeEventListener("scroll", onScrollOrResize);
+      window.removeEventListener("resize", onScrollOrResize);
+    };
+  }, []);
+
   return (
     <div className="page">
       <header className="topbar" aria-label="main-header">
@@ -18,9 +64,13 @@ function App() {
 
           <nav className="topbar__nav-wrap" aria-label="主导航">
             <ul className="topbar__nav">
-              {navItems.map((item, index) => (
+              {navItems.map((item) => (
                 <li key={item.href}>
-                  <a className={index === 0 ? "is-active" : ""} href={item.href}>
+                  <a
+                    className={activeSection === item.id ? "is-active" : ""}
+                    href={item.href}
+                    aria-current={activeSection === item.id ? "page" : undefined}
+                  >
                     {item.label}
                   </a>
                 </li>
