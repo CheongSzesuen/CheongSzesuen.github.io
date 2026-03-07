@@ -1,78 +1,77 @@
 import type { CSSProperties } from "react";
-
-type SocialLink = {
-  label: string;
-  href: string;
-  symbol: string;
-  external?: boolean;
-};
-
-const contactEmail = "WaiJade@outlook.com";
-const showFooterActions = false;
-
-const socialLinks: SocialLink[] = [
-  { label: "Email", href: `mailto:${contactEmail}`, symbol: "✉" },
-  { label: "GitHub", href: "https://github.com/WaiJade", symbol: "GH", external: true },
-  { label: "CodePen", href: "https://codepen.io", symbol: "CP", external: true },
-  { label: "X", href: "https://x.com", symbol: "X", external: true },
-  { label: "Bluesky", href: "https://bsky.app", symbol: "BS", external: true },
-  { label: "Telegram", href: "https://t.me", symbol: "TG", external: true },
-  { label: "YouTube", href: "https://www.youtube.com", symbol: "YT", external: true },
-  { label: "Bilibili", href: "https://www.bilibili.com", symbol: "B", external: true }
-];
+import { useEffect, useRef } from "react";
 
 const footerName = "WaiJade";
 
 function SiteFooter() {
   const currentYear = new Date().getFullYear();
+  const footerRef = useRef<HTMLElement | null>(null);
+
+  useEffect(() => {
+    const root = document.documentElement;
+    const footer = footerRef.current;
+    if (!footer) return;
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.intersectionRatio >= 0.75) {
+          root.classList.add("hide-nav-header");
+        } else {
+          root.classList.remove("hide-nav-header");
+        }
+      },
+      { threshold: [0, 0.25, 0.5, 0.75, 1] }
+    );
+
+    observer.observe(footer);
+
+    return () => {
+      observer.disconnect();
+      root.classList.remove("hide-nav-header");
+    };
+  }, []);
+
+  const handleBackToTop = () => {
+    window.scrollTo({ top: 0, left: 0, behavior: "smooth" });
+  };
 
   return (
-    <footer className="site-footer" aria-label="site-footer">
-      <div className="site-footer__content">
-        {showFooterActions && (
-          <>
-            <div className="site-footer__social-row">
-              {socialLinks.map((item, index) => {
-                const linkStyle = {
-                  "--index": index
-                } as CSSProperties;
+    <footer ref={footerRef} className="astro-footer" aria-label="site-footer">
+      <div className="astro-footer__lines astro-footer__lines--top" aria-hidden="true">
+        <img src="/footer/footer-top.png" alt="" loading="lazy" />
+      </div>
 
-                return (
-                  <a
-                    key={item.label}
-                    href={item.href}
-                    className="site-footer__social-link"
-                    style={linkStyle}
-                    aria-label={item.label}
-                    target={item.external ? "_blank" : undefined}
-                    rel={item.external ? "noreferrer" : undefined}
-                  >
-                    <span className="site-footer__social-symbol" aria-hidden="true">
-                      {item.symbol}
-                    </span>
-                    <span className="site-footer__social-label">{item.label}</span>
-                  </a>
-                );
-              })}
-            </div>
-
-            <a className="site-footer__cta" href={`mailto:${contactEmail}`}>
-              <span>Get in Touch</span>
+      <div className="astro-footer__content">
+        <div className="astro-footer__grid">
+          <div className="astro-footer__backtop astro-footer__span2">
+            <button className="astro-footer__back-top" type="button" onClick={handleBackToTop}>
+              <span>回到顶部</span>
               <span aria-hidden="true">↗</span>
-            </a>
-          </>
-        )}
-
-        <div className="site-footer__brand-wrap">
-          <h2 className="site-footer__name" aria-label={footerName}>
-            {footerName.split("").map((char, index) => (
-              <span key={`${char}-${index}`} className="site-footer__char">
-                {char}
-              </span>
-            ))}
-          </h2>
-          <p className="site-footer__copyright">© {currentYear} WaiJade. Crafted with passion and code.</p>
+            </button>
+          </div>
         </div>
+
+        <h2 className="astro-footer__wordmark" aria-label={footerName}>
+          {footerName.split("").map((char, index) => {
+            return (
+              <span
+                key={`${char}-${index}`}
+                className="astro-footer__glyph-wrap"
+                style={{ "--index": index } as CSSProperties}
+              >
+                <span className="astro-footer__glyph">{char}</span>
+              </span>
+            );
+          })}
+        </h2>
+
+        <div className="astro-footer__bottom">
+          <span>© {currentYear} WaiJade. Crafted with passion and code.</span>
+        </div>
+      </div>
+
+      <div className="astro-footer__lines astro-footer__lines--bottom" aria-hidden="true">
+        <img src="/footer/footer-bottom.png" alt="" loading="lazy" />
       </div>
     </footer>
   );
