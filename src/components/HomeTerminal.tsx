@@ -8,7 +8,7 @@ type AsciiCell = {
 type AnsiAvatarPayload = {
   width: number;
   height: number;
-  rows: Array<Array<number | null>>;
+  rows: Array<Array<number | [number, number, number] | null>>;
 };
 
 type TerminalEntry = {
@@ -118,15 +118,30 @@ function ansi256ToRgb(index: number): [number, number, number] {
 
 function parseAvatarPayload(payload: AnsiAvatarPayload): AsciiCell[][] {
   return payload.rows.map((row) =>
-    row.map((colorIndex) => {
-      if (colorIndex === null || Number.isNaN(colorIndex)) {
+    row.map((cellColor) => {
+      if (cellColor === null) {
         return {
           glyph: " ",
           color: "transparent"
         };
       }
 
-      const [r, g, b] = ansi256ToRgb(colorIndex);
+      if (Array.isArray(cellColor) && cellColor.length === 3) {
+        const [r, g, b] = cellColor;
+        return {
+          glyph: "█",
+          color: `rgb(${r} ${g} ${b})`
+        };
+      }
+
+      if (typeof cellColor !== "number" || Number.isNaN(cellColor)) {
+        return {
+          glyph: " ",
+          color: "transparent"
+        };
+      }
+
+      const [r, g, b] = ansi256ToRgb(cellColor);
       return {
         glyph: "█",
         color: `rgb(${r} ${g} ${b})`
