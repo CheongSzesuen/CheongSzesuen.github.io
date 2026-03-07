@@ -314,7 +314,6 @@ html {
 .astro-footer {
   position: relative;
   z-index: 1;
-  min-height: 100vh;
   margin-top: 40px;
   background: #000;
   color: #f0f0f0;
@@ -327,12 +326,11 @@ html {
   z-index: 3;
   width: min(1280px, calc(100% - 2rem));
   margin: 0 auto;
-  padding: 48px clamp(22px, 6vw, 84px);
+  padding: 24px clamp(22px, 6vw, 84px) 40px;
   display: flex;
   flex-direction: column;
-  gap: 36px;
+  gap: 16px;
   justify-content: flex-end;
-  min-height: 100vh;
 }
 
 .astro-footer__grid {
@@ -581,9 +579,8 @@ html {
 
   .astro-footer__content {
     width: calc(100% - 1rem);
-    min-height: auto;
-    padding: 56px 0 120px;
-    gap: 28px;
+    padding: 20px 0 64px;
+    gap: 12px;
   }
 
   .astro-footer__grid {
