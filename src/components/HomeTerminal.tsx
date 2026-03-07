@@ -132,14 +132,13 @@ function HomeTerminal() {
   const [asciiRows, setAsciiRows] = useState<AsciiCell[][]>([]);
   const [revealedRows, setRevealedRows] = useState(0);
   const [asciiStyle, setAsciiStyle] = useState<CSSProperties | undefined>(undefined);
-  const [terminalStyle, setTerminalStyle] = useState<CSSProperties | undefined>(undefined);
   const [typedLines, setTypedLines] = useState<string[]>(() => terminalEntries.map(() => ""));
   const [typingState, setTypingState] = useState({
     lineIndex: 0,
     charIndex: 0,
     done: false
   });
-  const terminalRef = useRef<HTMLDivElement | null>(null);
+  const asciiWrapRef = useRef<HTMLDivElement | null>(null);
   const bodyRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
@@ -192,7 +191,7 @@ function HomeTerminal() {
   }, [asciiRows]);
 
   useEffect(() => {
-    if (!asciiRows.length || !terminalRef.current || !bodyRef.current) return;
+    if (!asciiRows.length || !asciiWrapRef.current || !bodyRef.current) return;
 
     const rows = asciiRows.length;
     const cols = asciiRows.reduce((max, row) => Math.max(max, row.length), 0);
@@ -207,20 +206,23 @@ function HomeTerminal() {
     const updateLayout = () => {
       if (window.innerWidth <= 768) {
         setAsciiStyle(undefined);
-        setTerminalStyle(undefined);
         return;
       }
 
-      const terminalEl = terminalRef.current;
+      const asciiWrapEl = asciiWrapRef.current;
       const bodyEl = bodyRef.current;
-      if (!terminalEl || !bodyEl) return;
+      if (!asciiWrapEl || !bodyEl) return;
 
-      const bodyHeight = bodyRef.current?.getBoundingClientRect().height ?? 0;
-      if (!bodyHeight) return;
+      const bodyHeight = bodyEl.getBoundingClientRect().height;
+      const asciiWrapWidth = asciiWrapEl.getBoundingClientRect().width;
+      if (!bodyHeight || !asciiWrapWidth) return;
 
-      const baseFontSize = bodyHeight / (rows * baseLineHeight);
-      const nextFontSize = Math.max(minFontSize, Math.min(maxFontSize, baseFontSize * avatarScale));
-      const avatarWidth = cols * baseCellWidth * nextFontSize;
+      const heightFontSize = bodyHeight / (rows * baseLineHeight);
+      const widthFontSize = asciiWrapWidth / (cols * baseCellWidth);
+      const nextFontSize = Math.max(
+        minFontSize,
+        Math.min(maxFontSize, Math.min(heightFontSize, widthFontSize) * avatarScale)
+      );
 
       setAsciiStyle((prev) => {
         const next: CSSProperties = {
@@ -240,24 +242,12 @@ function HomeTerminal() {
 
         return next;
       });
-
-      setTerminalStyle((prev) => {
-        const next: CSSProperties = {
-          gridTemplateColumns: `${avatarWidth.toFixed(2)}px minmax(0, 1fr)`
-        };
-
-        if (prev && prev.gridTemplateColumns === next.gridTemplateColumns) {
-          return prev;
-        }
-
-        return next;
-      });
     };
 
     updateLayout();
     const observer = new ResizeObserver(updateLayout);
     observer.observe(bodyRef.current);
-    observer.observe(terminalRef.current);
+    observer.observe(asciiWrapRef.current);
 
     return () => {
       observer.disconnect();
@@ -310,26 +300,28 @@ function HomeTerminal() {
   }, [typingState]);
 
   return (
-    <div className="home-terminal" aria-label="home-terminal" ref={terminalRef} style={terminalStyle}>
-      <div className="home-terminal__ascii" aria-label="ascii-avatar" style={asciiStyle}>
-        {asciiRows.length
-          ? asciiRows.map((row, rowIndex) => (
-              <div
-                key={`ascii-row-${rowIndex}`}
-                className={`home-terminal__ascii-row ${rowIndex < revealedRows ? "is-visible" : ""}`}
-              >
-                {row.map((cell, colIndex) => (
-                  <span
-                    key={`ascii-cell-${rowIndex}-${colIndex}`}
-                    className="home-terminal__ascii-cell"
-                    style={{ color: cell.color }}
-                  >
-                    {cell.glyph}
-                  </span>
-                ))}
-              </div>
-            ))
-          : null}
+    <div className="home-terminal" aria-label="home-terminal">
+      <div className="home-terminal__ascii-wrap" ref={asciiWrapRef}>
+        <div className="home-terminal__ascii" aria-label="ascii-avatar" style={asciiStyle}>
+          {asciiRows.length
+            ? asciiRows.map((row, rowIndex) => (
+                <div
+                  key={`ascii-row-${rowIndex}`}
+                  className={`home-terminal__ascii-row ${rowIndex < revealedRows ? "is-visible" : ""}`}
+                >
+                  {row.map((cell, colIndex) => (
+                    <span
+                      key={`ascii-cell-${rowIndex}-${colIndex}`}
+                      className="home-terminal__ascii-cell"
+                      style={{ color: cell.color }}
+                    >
+                      {cell.glyph}
+                    </span>
+                  ))}
+                </div>
+              ))
+            : null}
+        </div>
       </div>
 
       <div className="home-terminal__body" ref={bodyRef}>

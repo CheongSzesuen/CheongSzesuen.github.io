@@ -277,6 +277,13 @@ html {
   align-items: center;
 }
 
+.home-terminal__ascii-wrap {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
 .home-terminal__ascii {
   margin: 0;
   padding: 0;
@@ -289,6 +296,7 @@ html {
   user-select: none;
   height: auto;
   display: block;
+  width: fit-content;
 }
 
 .home-terminal__ascii::-webkit-scrollbar {
