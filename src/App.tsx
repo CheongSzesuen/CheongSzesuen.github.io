@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import SiteFooter from "./components/SiteFooter";
 
 const navItems = [
   { id: "home", label: "Home", href: "#home" },
@@ -146,6 +147,8 @@ function App() {
           <p>这里是友链区块，后续按你的指令填充列表与交互。</p>
         </section>
       </main>
+
+      <SiteFooter />
     </div>
   );
 }
