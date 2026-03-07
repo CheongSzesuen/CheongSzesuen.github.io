@@ -16,10 +16,32 @@ function App() {
       .map((item) => document.getElementById(item.id))
       .filter((section): section is HTMLElement => Boolean(section));
     if (!sections.length) return;
+    const homeSection = document.getElementById("home");
     const aboutSection = document.getElementById("about");
 
     let ticking = false;
+    let lastGridOpacity = -1;
     const getSectionTop = (section: HTMLElement) => section.getBoundingClientRect().top + window.scrollY;
+    const updateGridOpacity = () => {
+      if (!homeSection || !aboutSection) {
+        if (lastGridOpacity !== 0.4) {
+          document.documentElement.style.setProperty("--hero-grid-opacity", "0.4");
+          lastGridOpacity = 0.4;
+        }
+        return;
+      }
+
+      const homeTop = getSectionTop(homeSection);
+      const aboutTop = getSectionTop(aboutSection);
+      const totalDistance = Math.max(aboutTop - homeTop, 1);
+      const progress = Math.min(1, Math.max(0, (window.scrollY - homeTop) / totalDistance));
+      const nextGridOpacity = Number((0.4 * (1 - progress)).toFixed(3));
+
+      if (nextGridOpacity !== lastGridOpacity) {
+        document.documentElement.style.setProperty("--hero-grid-opacity", nextGridOpacity.toString());
+        lastGridOpacity = nextGridOpacity;
+      }
+    };
 
     const updateActiveSection = () => {
       const aboutTop = aboutSection ? getSectionTop(aboutSection) : window.innerHeight;
@@ -44,6 +66,8 @@ function App() {
 
       const shouldShowHeader = current !== "home";
       setShowHeader((prev) => (prev === shouldShowHeader ? prev : shouldShowHeader));
+
+      updateGridOpacity();
     };
 
     const onScrollOrResize = () => {
@@ -62,6 +86,7 @@ function App() {
     return () => {
       window.removeEventListener("scroll", onScrollOrResize);
       window.removeEventListener("resize", onScrollOrResize);
+      document.documentElement.style.removeProperty("--hero-grid-opacity");
     };
   }, []);
 

@@ -2,6 +2,7 @@
   color-scheme: dark;
   --bg: #05070b;
   --grid-line: rgba(157, 180, 255, 0.28);
+  --hero-grid-opacity: 0.4;
   --text-main: #f4f7ff;
   --text-sub: rgba(220, 230, 255, 0.72);
 }
@@ -220,7 +221,7 @@ html {
     linear-gradient(to right, var(--grid-line) 1px, transparent 1px),
     linear-gradient(to bottom, var(--grid-line) 1px, transparent 1px);
   background-size: 40px 40px;
-  opacity: 0.4;
+  opacity: var(--hero-grid-opacity);
 }
 
 .hero__glow {
