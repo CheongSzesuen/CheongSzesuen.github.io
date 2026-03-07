@@ -274,7 +274,7 @@ html {
   display: grid;
   grid-template-columns: minmax(280px, 0.95fr) minmax(0, 1.05fr);
   gap: clamp(18px, 4vw, 64px);
-  align-items: stretch;
+  align-items: center;
 }
 
 .home-terminal__ascii {
