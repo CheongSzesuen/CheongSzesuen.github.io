@@ -190,8 +190,8 @@ function HomeTerminal() {
     const cols = asciiRows.reduce((max, row) => Math.max(max, row.length), 0);
     if (!rows || !cols) return;
 
-    const baseLineHeight = 1.12;
-    const baseCellWidth = 0.72;
+    const baseLineHeight = 1.18;
+    const baseCellWidth = 0.62;
     const minFontSize = 2;
     const maxFontSize = 10;
 
@@ -204,14 +204,11 @@ function HomeTerminal() {
       const widthBasedFont = asciiWidth / (cols * baseCellWidth);
       const nextFontSize = Math.max(minFontSize, Math.min(maxFontSize, Math.min(heightBasedFont, widthBasedFont)));
 
-      const nextLineHeight = bodyHeight / (rows * nextFontSize);
-      const nextCellWidth = asciiWidth / (cols * nextFontSize);
-
       setAsciiStyle((prev) => {
         const next: CSSProperties = {
           "--ascii-font-size": `${nextFontSize.toFixed(2)}px`,
-          "--ascii-line-height": nextLineHeight.toFixed(4),
-          "--ascii-cell-width": `${nextCellWidth.toFixed(4)}em`
+          "--ascii-line-height": baseLineHeight.toFixed(4),
+          "--ascii-cell-width": `${baseCellWidth.toFixed(4)}em`
         } as CSSProperties;
 
         if (
