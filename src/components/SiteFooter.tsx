@@ -7,8 +7,11 @@ type SocialLink = {
   external?: boolean;
 };
 
+const contactEmail = "WaiJade@outlook.com";
+const showFooterActions = false;
+
 const socialLinks: SocialLink[] = [
-  { label: "Email", href: "mailto:hello@waijade.com", symbol: "✉" },
+  { label: "Email", href: `mailto:${contactEmail}`, symbol: "✉" },
   { label: "GitHub", href: "https://github.com/WaiJade", symbol: "GH", external: true },
   { label: "CodePen", href: "https://codepen.io", symbol: "CP", external: true },
   { label: "X", href: "https://x.com", symbol: "X", external: true },
@@ -26,35 +29,39 @@ function SiteFooter() {
   return (
     <footer className="site-footer" aria-label="site-footer">
       <div className="site-footer__content">
-        <div className="site-footer__social-row">
-          {socialLinks.map((item, index) => {
-            const linkStyle = {
-              "--index": index
-            } as CSSProperties;
+        {showFooterActions && (
+          <>
+            <div className="site-footer__social-row">
+              {socialLinks.map((item, index) => {
+                const linkStyle = {
+                  "--index": index
+                } as CSSProperties;
 
-            return (
-              <a
-                key={item.label}
-                href={item.href}
-                className="site-footer__social-link"
-                style={linkStyle}
-                aria-label={item.label}
-                target={item.external ? "_blank" : undefined}
-                rel={item.external ? "noreferrer" : undefined}
-              >
-                <span className="site-footer__social-symbol" aria-hidden="true">
-                  {item.symbol}
-                </span>
-                <span className="site-footer__social-label">{item.label}</span>
-              </a>
-            );
-          })}
-        </div>
+                return (
+                  <a
+                    key={item.label}
+                    href={item.href}
+                    className="site-footer__social-link"
+                    style={linkStyle}
+                    aria-label={item.label}
+                    target={item.external ? "_blank" : undefined}
+                    rel={item.external ? "noreferrer" : undefined}
+                  >
+                    <span className="site-footer__social-symbol" aria-hidden="true">
+                      {item.symbol}
+                    </span>
+                    <span className="site-footer__social-label">{item.label}</span>
+                  </a>
+                );
+              })}
+            </div>
 
-        <a className="site-footer__cta" href="mailto:hello@waijade.com">
-          <span>Get in Touch</span>
-          <span aria-hidden="true">↗</span>
-        </a>
+            <a className="site-footer__cta" href={`mailto:${contactEmail}`}>
+              <span>Get in Touch</span>
+              <span aria-hidden="true">↗</span>
+            </a>
+          </>
+        )}
 
         <div className="site-footer__brand-wrap">
           <h2 className="site-footer__name" aria-label={footerName}>

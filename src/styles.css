@@ -387,15 +387,17 @@ html {
 }
 
 .site-footer__brand-wrap {
+  width: 100%;
   margin-top: 36px;
   display: flex;
   flex-direction: column;
-  align-items: center;
+  align-items: flex-start;
   gap: 14px;
 }
 
 .site-footer__name {
   margin: 0;
+  align-self: center;
   display: inline-flex;
   align-items: flex-end;
   gap: 0;
@@ -422,8 +424,11 @@ html {
 .site-footer__copyright {
   margin: 0;
   margin-top: 40px;
-  text-align: center;
-  font-size: 0.95rem;
+  text-align: left;
+  font-size: 1.08rem;
+  letter-spacing: 0.02em;
+  font-family: "JetBrains Mono", "Fira Code", "IBM Plex Mono", "SFMono-Regular", Menlo, Monaco,
+    Consolas, "Liberation Mono", "Courier New", monospace;
   color: rgba(216, 216, 216, 0.86);
 }
 
@@ -517,6 +522,6 @@ html {
 
   .site-footer__copyright {
     margin-top: 26px;
-    font-size: 0.82rem;
+    font-size: 0.92rem;
   }
 }
