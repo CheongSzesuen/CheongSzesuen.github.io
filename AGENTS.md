@@ -29,6 +29,9 @@ npm run preview  # 预览构建结果
 ## 提交规范（强制）
 - 每添加完一个功能，必须立即执行一次 `git commit`。
 - 提交格式：`type(scope): subject`，可选 body。
+- 提交信息必须使用简体中文书写：
+  - `subject` 必须是简体中文。
+  - 若有 `body`，`body` 也必须是简体中文。
 - 示例：
   - `feat(hero): 添加首屏静态方格背景`
   - `fix(grid): 修正移动端方格间距`
