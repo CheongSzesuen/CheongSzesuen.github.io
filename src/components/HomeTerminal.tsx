@@ -127,8 +127,8 @@ function parseAvatarPayload(payload: AnsiAvatarPayload): AsciiCell[][] {
     row.map((cellColor) => {
       if (cellColor === null) {
         return {
-          glyph: " ",
-          color: "transparent"
+          glyph: "█",
+          color: "rgb(0 0 0)"
         };
       }
 
@@ -142,8 +142,8 @@ function parseAvatarPayload(payload: AnsiAvatarPayload): AsciiCell[][] {
 
       if (typeof cellColor !== "number" || Number.isNaN(cellColor)) {
         return {
-          glyph: " ",
-          color: "transparent"
+          glyph: "█",
+          color: "rgb(0 0 0)"
         };
       }
 
