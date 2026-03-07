@@ -19,10 +19,12 @@ function App() {
     const aboutSection = document.getElementById("about");
 
     let ticking = false;
+    const getSectionTop = (section: HTMLElement) => section.getBoundingClientRect().top + window.scrollY;
 
     const updateActiveSection = () => {
+      const aboutTop = aboutSection ? getSectionTop(aboutSection) : window.innerHeight;
       const isInHome = aboutSection
-        ? window.scrollY + 1 < aboutSection.offsetTop
+        ? window.scrollY + 1 < aboutTop
         : window.scrollY < window.innerHeight * 0.9;
       let current: (typeof navItems)[number]["id"] = "home";
 
@@ -30,7 +32,7 @@ function App() {
         const marker = window.scrollY + 112;
         for (const section of sections) {
           if (section.id === "home") continue;
-          if (section.offsetTop <= marker) {
+          if (getSectionTop(section) <= marker) {
             current = section.id as (typeof navItems)[number]["id"];
           } else {
             break;
@@ -40,7 +42,7 @@ function App() {
 
       setActiveSection((prev) => (prev === current ? prev : current));
 
-      const shouldShowHeader = !isInHome;
+      const shouldShowHeader = current !== "home";
       setShowHeader((prev) => (prev === shouldShowHeader ? prev : shouldShowHeader));
     };
 
