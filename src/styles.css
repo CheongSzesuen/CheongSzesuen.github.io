@@ -450,7 +450,7 @@ html {
   align-self: center;
   cursor: default;
   user-select: none;
-  font-size: clamp(72px, 18vw, 220px);
+  font-size: clamp(96px, 22vw, 280px);
   line-height: 0.82;
   font-weight: 800;
   letter-spacing: -0.05em;
@@ -597,7 +597,7 @@ html {
   }
 
   .astro-footer__wordmark {
-    font-size: clamp(64px, 22vw, 120px);
+    font-size: clamp(82px, 26vw, 156px);
     letter-spacing: -0.03em;
   }
 
