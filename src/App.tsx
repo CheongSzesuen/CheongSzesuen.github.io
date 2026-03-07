@@ -22,12 +22,17 @@ function App() {
 
     let ticking = false;
     let lastGridOpacity = -1;
+    let lastBrightOpacity = -1;
     const getSectionTop = (section: HTMLElement) => section.getBoundingClientRect().top + window.scrollY;
-    const updateGridOpacity = () => {
+    const updateHeroBackgroundFade = () => {
       if (!homeSection || !aboutSection) {
         if (lastGridOpacity !== 0.4) {
           document.documentElement.style.setProperty("--hero-grid-opacity", "0.4");
           lastGridOpacity = 0.4;
+        }
+        if (lastBrightOpacity !== 1) {
+          document.documentElement.style.setProperty("--hero-bright-opacity", "1");
+          lastBrightOpacity = 1;
         }
         return;
       }
@@ -37,10 +42,16 @@ function App() {
       const totalDistance = Math.max(aboutTop - homeTop, 1);
       const progress = Math.min(1, Math.max(0, (window.scrollY - homeTop) / totalDistance));
       const nextGridOpacity = Number((0.4 * (1 - progress)).toFixed(3));
+      const nextBrightOpacity = Number((1 - progress).toFixed(3));
 
       if (nextGridOpacity !== lastGridOpacity) {
         document.documentElement.style.setProperty("--hero-grid-opacity", nextGridOpacity.toString());
         lastGridOpacity = nextGridOpacity;
+      }
+
+      if (nextBrightOpacity !== lastBrightOpacity) {
+        document.documentElement.style.setProperty("--hero-bright-opacity", nextBrightOpacity.toString());
+        lastBrightOpacity = nextBrightOpacity;
       }
     };
 
@@ -68,7 +79,7 @@ function App() {
       const shouldShowHeader = current !== "home";
       setShowHeader((prev) => (prev === shouldShowHeader ? prev : shouldShowHeader));
 
-      updateGridOpacity();
+      updateHeroBackgroundFade();
     };
 
     const onScrollOrResize = () => {
@@ -88,6 +99,7 @@ function App() {
       window.removeEventListener("scroll", onScrollOrResize);
       window.removeEventListener("resize", onScrollOrResize);
       document.documentElement.style.removeProperty("--hero-grid-opacity");
+      document.documentElement.style.removeProperty("--hero-bright-opacity");
     };
   }, []);
 

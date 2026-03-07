@@ -3,6 +3,7 @@
   --bg: #05070b;
   --grid-line: rgba(157, 180, 255, 0.28);
   --hero-grid-opacity: 0.4;
+  --hero-bright-opacity: 1;
   --text-main: #f4f7ff;
   --text-sub: rgba(220, 230, 255, 0.72);
 }
@@ -43,9 +44,15 @@ html {
   inset: 0;
   z-index: 0;
   pointer-events: none;
-  background:
-    radial-gradient(125% 125% at 50% 100%, #000 20%, rgba(108, 130, 255, 0.36) 100%),
-    #000;
+  background: #000;
+}
+
+.page__bg::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(125% 125% at 50% 100%, #000 20%, rgba(108, 130, 255, 0.36) 100%);
+  opacity: var(--hero-bright-opacity);
 }
 
 .topbar {
@@ -228,9 +235,22 @@ html {
 .hero__glow {
   position: absolute;
   inset: 0;
-  background:
-    radial-gradient(70% 45% at 50% 100%, rgba(145, 165, 255, 0.3), transparent 70%),
-    linear-gradient(to top, rgba(2, 4, 10, 0.92), rgba(2, 4, 10, 0.18) 55%, rgba(2, 4, 10, 0.86));
+}
+
+.hero__glow::before,
+.hero__glow::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+}
+
+.hero__glow::before {
+  background: radial-gradient(70% 45% at 50% 100%, rgba(145, 165, 255, 0.3), transparent 70%);
+  opacity: var(--hero-bright-opacity);
+}
+
+.hero__glow::after {
+  background: linear-gradient(to top, rgba(2, 4, 10, 0.92), rgba(2, 4, 10, 0.18) 55%, rgba(2, 4, 10, 0.86));
 }
 
 .hero__vignette {
@@ -310,7 +330,7 @@ html {
   min-height: 61.8vh;
   min-height: 61.8svh;
   margin-top: 40px;
-  background: #000;
+  background: var(--bg);
   color: #f0f0f0;
   overflow: hidden;
   isolation: isolate;
