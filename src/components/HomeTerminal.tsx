@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState, type CSSProperties } from "react";
 
 type AsciiCell = {
   glyph: string;
@@ -124,12 +124,14 @@ function parseAvatarPayload(payload: AnsiAvatarPayload): AsciiCell[][] {
 function HomeTerminal() {
   const [asciiRows, setAsciiRows] = useState<AsciiCell[][]>([]);
   const [revealedRows, setRevealedRows] = useState(0);
+  const [asciiFontSize, setAsciiFontSize] = useState<number | null>(null);
   const [typedLines, setTypedLines] = useState<string[]>(() => terminalEntries.map(() => ""));
   const [typingState, setTypingState] = useState({
     lineIndex: 0,
     charIndex: 0,
     done: false
   });
+  const bodyRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
     let canceled = false;
@@ -181,6 +183,34 @@ function HomeTerminal() {
   }, [asciiRows]);
 
   useEffect(() => {
+    if (!asciiRows.length || !bodyRef.current) return;
+
+    const lineHeight = 1.18;
+    const minSize = 4;
+    const maxSize = 10;
+
+    const updateSize = () => {
+      const bodyHeight = bodyRef.current?.getBoundingClientRect().height ?? 0;
+      if (!bodyHeight) return;
+      const next = Math.max(minSize, Math.min(maxSize, bodyHeight / (asciiRows.length * lineHeight)));
+      setAsciiFontSize((prev) => {
+        if (prev !== null && Math.abs(prev - next) < 0.05) return prev;
+        return Number(next.toFixed(2));
+      });
+    };
+
+    updateSize();
+    const observer = new ResizeObserver(updateSize);
+    observer.observe(bodyRef.current);
+    window.addEventListener("resize", updateSize);
+
+    return () => {
+      observer.disconnect();
+      window.removeEventListener("resize", updateSize);
+    };
+  }, [asciiRows]);
+
+  useEffect(() => {
     if (typingState.done) return;
 
     const entry = terminalEntries[typingState.lineIndex];
@@ -225,9 +255,13 @@ function HomeTerminal() {
     };
   }, [typingState]);
 
+  const asciiInlineStyle: CSSProperties | undefined = asciiFontSize
+    ? ({ "--ascii-font-size": `${asciiFontSize}px` } as CSSProperties)
+    : undefined;
+
   return (
     <div className="home-terminal" aria-label="home-terminal">
-      <div className="home-terminal__ascii" aria-label="ascii-avatar">
+      <div className="home-terminal__ascii" aria-label="ascii-avatar" style={asciiInlineStyle}>
         {asciiRows.length
           ? asciiRows.map((row, rowIndex) => (
               <div
@@ -248,7 +282,7 @@ function HomeTerminal() {
           : null}
       </div>
 
-      <div className="home-terminal__body">
+      <div className="home-terminal__body" ref={bodyRef}>
         <p className="home-terminal__prompt">
           <span className="tone-cyan">user@waijade</span>
           <span className="tone-sep">:</span>
