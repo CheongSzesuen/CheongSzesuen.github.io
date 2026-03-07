@@ -96,72 +96,53 @@ html {
 
 .topbar__nav {
   margin: 0;
-  padding: 0.24rem;
+  padding: 4px;
   list-style: none;
   display: flex;
   align-items: center;
-  border-radius: 999px;
-  border: 1px solid rgba(255, 255, 255, 0.14);
-  background: rgba(255, 255, 255, 0.08);
+  gap: 8px;
+  height: 46px;
+  border-radius: 33554432px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  background: rgba(255, 255, 255, 0.1);
   -webkit-backdrop-filter: blur(4px) brightness(1.35);
   backdrop-filter: blur(4px) brightness(1.35);
-  box-shadow:
-    inset 0 0 0 1px rgba(255, 255, 255, 0.06),
-    0 8px 22px rgba(0, 0, 0, 0.26);
-  position: relative;
-}
-
-.topbar__nav::before {
-  content: "";
-  position: absolute;
-  inset: 1px;
-  border-radius: 999px;
-  pointer-events: none;
-  background: linear-gradient(
-    to bottom,
-    rgba(255, 255, 255, 0.18),
-    rgba(255, 255, 255, 0.04) 42%,
-    transparent 70%
-  );
 }
 
 .topbar__nav li {
   display: flex;
   align-items: center;
-  position: relative;
+  gap: 8px;
 }
 
 .topbar__nav li:not(:last-child)::after {
   content: "";
-  position: absolute;
-  right: 0;
-  top: 50%;
-  transform: translateY(-50%);
   width: 1px;
-  height: 18px;
-  background: rgba(255, 255, 255, 0.13);
-}
-
-.topbar__nav li:not(:last-child) {
-  margin-right: 0.45rem;
-  padding-right: 0.45rem;
+  height: 20px;
+  background: rgba(255, 255, 255, 0.1);
 }
 
 .topbar__nav a {
   display: inline-flex;
   align-items: center;
-  padding: 0.52rem 1.1rem;
-  border-radius: 999px;
-  color: rgba(255, 255, 255, 0.62);
+  padding: 0.5rem 1.25rem;
+  border-radius: 9999px;
+  color: rgba(255, 255, 255, 0.6);
   text-decoration: none;
-  font-size: 0.9rem;
-  transition: background-color 0.2s ease, color 0.2s ease, transform 0.2s ease;
+  font-size: 0.875rem;
+  font-weight: 500;
+  line-height: 1;
+  transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 .topbar__nav a:hover {
   color: #fff;
-  background: rgba(255, 255, 255, 0.16);
-  transform: translateY(-1px);
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.topbar__nav a.is-active {
+  color: #fff;
+  background: rgba(255, 255, 255, 0.2);
 }
 
 .hero {

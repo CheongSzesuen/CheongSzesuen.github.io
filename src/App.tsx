@@ -18,9 +18,11 @@ function App() {
 
           <nav className="topbar__nav-wrap" aria-label="主导航">
             <ul className="topbar__nav">
-              {navItems.map((item) => (
+              {navItems.map((item, index) => (
                 <li key={item.href}>
-                  <a href={item.href}>{item.label}</a>
+                  <a className={index === 0 ? "is-active" : ""} href={item.href}>
+                    {item.label}
+                  </a>
                 </li>
               ))}
             </ul>
