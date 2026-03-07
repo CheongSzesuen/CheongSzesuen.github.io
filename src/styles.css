@@ -331,7 +331,7 @@ html {
   display: flex;
   flex-direction: column;
   gap: 36px;
-  justify-content: space-between;
+  justify-content: flex-end;
   min-height: 100vh;
 }
 
