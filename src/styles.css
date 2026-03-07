@@ -381,8 +381,8 @@ html {
 .home-terminal__lines {
   display: flex;
   flex-direction: column;
-  gap: 8px;
-  min-height: 112px;
+  gap: 6px;
+  min-height: 0;
 }
 
 .home-terminal__line {
@@ -409,7 +409,7 @@ html {
   display: flex;
   flex-wrap: wrap;
   gap: 8px;
-  margin-top: 6px;
+  margin-top: 0;
 }
 
 .home-terminal__social-link {
@@ -452,7 +452,7 @@ html {
 }
 
 .home-terminal__actions {
-  margin-top: 8px;
+  margin-top: 6px;
   display: flex;
   flex-wrap: wrap;
   gap: 10px;
@@ -845,7 +845,7 @@ html {
   }
 
   .home-terminal__lines {
-    min-height: 124px;
+    min-height: 0;
   }
 
   .home-terminal__line {
