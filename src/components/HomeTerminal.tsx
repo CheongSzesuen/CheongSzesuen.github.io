@@ -124,13 +124,14 @@ function parseAvatarPayload(payload: AnsiAvatarPayload): AsciiCell[][] {
 function HomeTerminal() {
   const [asciiRows, setAsciiRows] = useState<AsciiCell[][]>([]);
   const [revealedRows, setRevealedRows] = useState(0);
-  const [asciiFontSize, setAsciiFontSize] = useState<number | null>(null);
+  const [asciiStyle, setAsciiStyle] = useState<CSSProperties | undefined>(undefined);
   const [typedLines, setTypedLines] = useState<string[]>(() => terminalEntries.map(() => ""));
   const [typingState, setTypingState] = useState({
     lineIndex: 0,
     charIndex: 0,
     done: false
   });
+  const asciiRef = useRef<HTMLDivElement | null>(null);
   const bodyRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
@@ -183,30 +184,56 @@ function HomeTerminal() {
   }, [asciiRows]);
 
   useEffect(() => {
-    if (!asciiRows.length || !bodyRef.current) return;
+    if (!asciiRows.length || !bodyRef.current || !asciiRef.current) return;
 
-    const lineHeight = 1.18;
-    const minSize = 4;
-    const maxSize = 10;
+    const rows = asciiRows.length;
+    const cols = asciiRows.reduce((max, row) => Math.max(max, row.length), 0);
+    if (!rows || !cols) return;
 
-    const updateSize = () => {
+    const baseLineHeight = 1.12;
+    const baseCellWidth = 0.72;
+    const minFontSize = 2;
+    const maxFontSize = 10;
+
+    const updateLayout = () => {
       const bodyHeight = bodyRef.current?.getBoundingClientRect().height ?? 0;
-      if (!bodyHeight) return;
-      const next = Math.max(minSize, Math.min(maxSize, bodyHeight / (asciiRows.length * lineHeight)));
-      setAsciiFontSize((prev) => {
-        if (prev !== null && Math.abs(prev - next) < 0.05) return prev;
-        return Number(next.toFixed(2));
+      const asciiWidth = asciiRef.current?.getBoundingClientRect().width ?? 0;
+      if (!bodyHeight || !asciiWidth) return;
+
+      const heightBasedFont = bodyHeight / (rows * baseLineHeight);
+      const widthBasedFont = asciiWidth / (cols * baseCellWidth);
+      const nextFontSize = Math.max(minFontSize, Math.min(maxFontSize, Math.min(heightBasedFont, widthBasedFont)));
+
+      const nextLineHeight = bodyHeight / (rows * nextFontSize);
+      const nextCellWidth = asciiWidth / (cols * nextFontSize);
+
+      setAsciiStyle((prev) => {
+        const next: CSSProperties = {
+          "--ascii-font-size": `${nextFontSize.toFixed(2)}px`,
+          "--ascii-line-height": nextLineHeight.toFixed(4),
+          "--ascii-cell-width": `${nextCellWidth.toFixed(4)}em`
+        } as CSSProperties;
+
+        if (
+          prev &&
+          prev["--ascii-font-size" as keyof CSSProperties] === next["--ascii-font-size" as keyof CSSProperties] &&
+          prev["--ascii-line-height" as keyof CSSProperties] === next["--ascii-line-height" as keyof CSSProperties] &&
+          prev["--ascii-cell-width" as keyof CSSProperties] === next["--ascii-cell-width" as keyof CSSProperties]
+        ) {
+          return prev;
+        }
+
+        return next;
       });
     };
 
-    updateSize();
-    const observer = new ResizeObserver(updateSize);
+    updateLayout();
+    const observer = new ResizeObserver(updateLayout);
     observer.observe(bodyRef.current);
-    window.addEventListener("resize", updateSize);
+    observer.observe(asciiRef.current);
 
     return () => {
       observer.disconnect();
-      window.removeEventListener("resize", updateSize);
     };
   }, [asciiRows]);
 
@@ -255,13 +282,9 @@ function HomeTerminal() {
     };
   }, [typingState]);
 
-  const asciiInlineStyle: CSSProperties | undefined = asciiFontSize
-    ? ({ "--ascii-font-size": `${asciiFontSize}px` } as CSSProperties)
-    : undefined;
-
   return (
     <div className="home-terminal" aria-label="home-terminal">
-      <div className="home-terminal__ascii" aria-label="ascii-avatar" style={asciiInlineStyle}>
+      <div className="home-terminal__ascii" aria-label="ascii-avatar" ref={asciiRef} style={asciiStyle}>
         {asciiRows.length
           ? asciiRows.map((row, rowIndex) => (
               <div
