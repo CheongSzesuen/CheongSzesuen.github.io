@@ -31,10 +31,6 @@ function SiteFooter() {
     };
   }, []);
 
-  const handleBackToTop = () => {
-    window.scrollTo({ top: 0, left: 0, behavior: "smooth" });
-  };
-
   return (
     <footer ref={footerRef} className="astro-footer" aria-label="site-footer">
       <div className="astro-footer__lines astro-footer__lines--top" aria-hidden="true">
@@ -42,15 +38,6 @@ function SiteFooter() {
       </div>
 
       <div className="astro-footer__content">
-        <div className="astro-footer__grid">
-          <div className="astro-footer__backtop astro-footer__span2">
-            <button className="astro-footer__back-top" type="button" onClick={handleBackToTop}>
-              <span>回到顶部</span>
-              <span aria-hidden="true">↗</span>
-            </button>
-          </div>
-        </div>
-
         <h2 className="astro-footer__wordmark" aria-label={footerName}>
           {footerName.split("").map((char, index) => {
             return (
