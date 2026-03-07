@@ -30,6 +30,106 @@ body {
   min-height: 100svh;
 }
 
+.topbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 50;
+}
+
+.topbar__fade {
+  position: absolute;
+  inset: 0;
+  height: 140%;
+  pointer-events: none;
+  display: grid;
+  z-index: -1;
+  background: linear-gradient(to bottom, rgba(0, 0, 0, 0.9), transparent);
+}
+
+.topbar__fade::before {
+  content: "";
+  grid-area: 1 / 1;
+  -webkit-mask: linear-gradient(180deg, #000 0%, #000 72%, transparent 100%);
+  mask: linear-gradient(180deg, #000 0%, #000 72%, transparent 100%);
+  -webkit-backdrop-filter: blur(8px);
+  backdrop-filter: blur(8px);
+}
+
+.topbar__inner {
+  width: min(1120px, calc(100% - 2rem));
+  margin: 0 auto;
+  padding: 1rem 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.topbar__brand {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+  color: #fff;
+  font-weight: 650;
+  letter-spacing: 0.01em;
+  text-decoration: none;
+}
+
+.topbar__brand img {
+  width: 40px;
+  height: 40px;
+  border-radius: 999px;
+  object-fit: cover;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.topbar__nav-wrap {
+  overflow-x: auto;
+}
+
+.topbar__nav {
+  margin: 0;
+  padding: 0.25rem;
+  list-style: none;
+  display: flex;
+  align-items: center;
+  border-radius: 999px;
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  background: rgba(255, 255, 255, 0.1);
+  -webkit-backdrop-filter: blur(4px) brightness(1.35);
+  backdrop-filter: blur(4px) brightness(1.35);
+}
+
+.topbar__nav li {
+  display: flex;
+  align-items: center;
+}
+
+.topbar__nav li:not(:last-child)::after {
+  content: "";
+  width: 1px;
+  height: 18px;
+  background: rgba(255, 255, 255, 0.16);
+}
+
+.topbar__nav a {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.52rem 1.1rem;
+  border-radius: 999px;
+  color: rgba(255, 255, 255, 0.7);
+  text-decoration: none;
+  font-size: 0.9rem;
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+.topbar__nav a:hover {
+  color: #fff;
+  background: rgba(255, 255, 255, 0.12);
+}
+
 .hero {
   position: relative;
   min-height: 100svh;
@@ -103,6 +203,25 @@ body {
 }
 
 @media (max-width: 768px) {
+  .topbar__inner {
+    width: calc(100% - 1rem);
+    padding: 0.8rem 0;
+  }
+
+  .topbar__brand img {
+    width: 34px;
+    height: 34px;
+  }
+
+  .topbar__brand span {
+    font-size: 0.95rem;
+  }
+
+  .topbar__nav a {
+    padding: 0.46rem 0.86rem;
+    font-size: 0.82rem;
+  }
+
   .hero__grid {
     background-size: 28px 28px;
   }

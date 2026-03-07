@@ -1,7 +1,34 @@
+const navItems = [
+  { label: "Home", href: "#home" },
+  { label: "About", href: "#about" },
+  { label: "Works", href: "#works" },
+  { label: "Friends", href: "#friends" }
+];
+
 function App() {
   return (
     <div className="page">
-      <section className="hero" aria-label="first-screen">
+      <header className="topbar" aria-label="main-header">
+        <div className="topbar__fade" aria-hidden="true" />
+        <div className="topbar__inner">
+          <a className="topbar__brand" href="#home">
+            <img src="/favicon.png" alt="WaiJade 头像" />
+            <span>WaiJade</span>
+          </a>
+
+          <nav className="topbar__nav-wrap" aria-label="主导航">
+            <ul className="topbar__nav">
+              {navItems.map((item) => (
+                <li key={item.href}>
+                  <a href={item.href}>{item.label}</a>
+                </li>
+              ))}
+            </ul>
+          </nav>
+        </div>
+      </header>
+
+      <section id="home" className="hero" aria-label="first-screen">
         <div className="hero__bg" aria-hidden="true">
           <div className="hero__grid" />
           <div className="hero__glow" />
