@@ -125,13 +125,14 @@ function HomeTerminal() {
   const [asciiRows, setAsciiRows] = useState<AsciiCell[][]>([]);
   const [revealedRows, setRevealedRows] = useState(0);
   const [asciiStyle, setAsciiStyle] = useState<CSSProperties | undefined>(undefined);
+  const [terminalStyle, setTerminalStyle] = useState<CSSProperties | undefined>(undefined);
   const [typedLines, setTypedLines] = useState<string[]>(() => terminalEntries.map(() => ""));
   const [typingState, setTypingState] = useState({
     lineIndex: 0,
     charIndex: 0,
     done: false
   });
-  const asciiRef = useRef<HTMLDivElement | null>(null);
+  const terminalRef = useRef<HTMLDivElement | null>(null);
   const bodyRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
@@ -184,7 +185,7 @@ function HomeTerminal() {
   }, [asciiRows]);
 
   useEffect(() => {
-    if (!asciiRows.length || !bodyRef.current || !asciiRef.current) return;
+    if (!asciiRows.length || !terminalRef.current || !bodyRef.current) return;
 
     const rows = asciiRows.length;
     const cols = asciiRows.reduce((max, row) => Math.max(max, row.length), 0);
@@ -192,16 +193,36 @@ function HomeTerminal() {
 
     const baseLineHeight = 1.18;
     const baseCellWidth = 0.62;
-    const minFontSize = 2;
+    const minFontSize = 1.6;
     const maxFontSize = 10;
+    const minBodyWidth = 320;
+    const minAvatarWidth = 180;
 
     const updateLayout = () => {
+      if (window.innerWidth <= 768) {
+        setAsciiStyle(undefined);
+        setTerminalStyle(undefined);
+        return;
+      }
+
+      const terminalEl = terminalRef.current;
+      const bodyEl = bodyRef.current;
+      if (!terminalEl || !bodyEl) return;
+
+      const terminalRect = terminalEl.getBoundingClientRect();
       const bodyHeight = bodyRef.current?.getBoundingClientRect().height ?? 0;
-      const asciiWidth = asciiRef.current?.getBoundingClientRect().width ?? 0;
-      if (!bodyHeight || !asciiWidth) return;
+      if (!bodyHeight) return;
+
+      const computed = window.getComputedStyle(terminalEl);
+      const gap = Number.parseFloat(computed.columnGap || computed.gap || "0") || 0;
+
+      const ratio = (cols * baseCellWidth) / (rows * baseLineHeight);
+      const desiredAvatarWidth = bodyHeight * ratio;
+      const maxAvatarWidth = Math.max(minAvatarWidth, terminalRect.width - gap - minBodyWidth);
+      const avatarWidth = Math.min(desiredAvatarWidth, maxAvatarWidth);
 
       const heightBasedFont = bodyHeight / (rows * baseLineHeight);
-      const widthBasedFont = asciiWidth / (cols * baseCellWidth);
+      const widthBasedFont = avatarWidth / (cols * baseCellWidth);
       const nextFontSize = Math.max(minFontSize, Math.min(maxFontSize, Math.min(heightBasedFont, widthBasedFont)));
 
       setAsciiStyle((prev) => {
@@ -222,12 +243,24 @@ function HomeTerminal() {
 
         return next;
       });
+
+      setTerminalStyle((prev) => {
+        const next: CSSProperties = {
+          gridTemplateColumns: `${avatarWidth.toFixed(2)}px minmax(0, 1fr)`
+        };
+
+        if (prev && prev.gridTemplateColumns === next.gridTemplateColumns) {
+          return prev;
+        }
+
+        return next;
+      });
     };
 
     updateLayout();
     const observer = new ResizeObserver(updateLayout);
     observer.observe(bodyRef.current);
-    observer.observe(asciiRef.current);
+    observer.observe(terminalRef.current);
 
     return () => {
       observer.disconnect();
@@ -280,8 +313,8 @@ function HomeTerminal() {
   }, [typingState]);
 
   return (
-    <div className="home-terminal" aria-label="home-terminal">
-      <div className="home-terminal__ascii" aria-label="ascii-avatar" ref={asciiRef} style={asciiStyle}>
+    <div className="home-terminal" aria-label="home-terminal" ref={terminalRef} style={terminalStyle}>
+      <div className="home-terminal__ascii" aria-label="ascii-avatar" style={asciiStyle}>
         {asciiRows.length
           ? asciiRows.map((row, rowIndex) => (
               <div
