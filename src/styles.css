@@ -105,13 +105,23 @@ body {
 .topbar__nav li {
   display: flex;
   align-items: center;
+  position: relative;
 }
 
 .topbar__nav li:not(:last-child)::after {
   content: "";
+  position: absolute;
+  right: 0;
+  top: 50%;
+  transform: translateY(-50%);
   width: 1px;
   height: 18px;
   background: rgba(255, 255, 255, 0.16);
+}
+
+.topbar__nav li:not(:last-child) {
+  margin-right: 0.45rem;
+  padding-right: 0.45rem;
 }
 
 .topbar__nav a {
