@@ -99,7 +99,7 @@ function App() {
         <div className="hero__vignette" />
       </div>
 
-      <header className={`topbar ${showHeader ? "is-visible" : ""}`} aria-label="main-header" data-nav-header>
+      <header className={`topbar ${showHeader ? "is-visible" : ""}`} aria-label="main-header">
         <div className="topbar__fade" aria-hidden="true" />
         <div className="topbar__inner">
           <a className="topbar__brand" href="#home">

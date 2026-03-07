@@ -1,38 +1,12 @@
 import type { CSSProperties } from "react";
-import { useEffect, useRef } from "react";
 
 const footerName = "WaiJade";
 
 function SiteFooter() {
   const currentYear = new Date().getFullYear();
-  const footerRef = useRef<HTMLElement | null>(null);
-
-  useEffect(() => {
-    const root = document.documentElement;
-    const footer = footerRef.current;
-    if (!footer) return;
-
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.intersectionRatio >= 0.75) {
-          root.classList.add("hide-nav-header");
-        } else {
-          root.classList.remove("hide-nav-header");
-        }
-      },
-      { threshold: [0, 0.25, 0.5, 0.75, 1] }
-    );
-
-    observer.observe(footer);
-
-    return () => {
-      observer.disconnect();
-      root.classList.remove("hide-nav-header");
-    };
-  }, []);
 
   return (
-    <footer ref={footerRef} className="astro-footer" aria-label="site-footer">
+    <footer className="astro-footer" aria-label="site-footer">
       <div className="astro-footer__lines astro-footer__lines--top" aria-hidden="true">
         <img src="/footer/footer-top.png" alt="" loading="lazy" />
       </div>

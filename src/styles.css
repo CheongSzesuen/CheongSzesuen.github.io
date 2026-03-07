@@ -300,17 +300,6 @@ html {
   line-height: 1.75;
 }
 
-.hide-nav-header [data-nav-header] {
-  transform: translateY(-120%);
-  opacity: 0;
-  pointer-events: none;
-  transition: transform 0.35s ease, opacity 0.25s ease;
-}
-
-[data-nav-header] {
-  transition: transform 0.35s ease, opacity 0.25s ease;
-}
-
 .astro-footer {
   position: relative;
   display: flex;
