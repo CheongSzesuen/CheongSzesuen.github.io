@@ -5,6 +5,12 @@ type AsciiCell = {
   color: string;
 };
 
+type AnsiAvatarPayload = {
+  width: number;
+  height: number;
+  rows: Array<Array<number | null>>;
+};
+
 type TerminalEntry = {
   text: string;
   tone: "role" | "quote" | "note";
@@ -21,11 +27,6 @@ type ActionLink = {
   href: string;
   label: string;
   emphasis?: boolean;
-};
-
-const ASCII_SIZE = {
-  width: 86,
-  height: 58
 };
 
 const terminalEntries: TerminalEntry[] = [
@@ -64,22 +65,60 @@ const fallbackRows: AsciiCell[][] = fallbackAscii.map((line) =>
   }))
 );
 
-function mapPixelToGlyph(r: number, g: number, b: number, alpha: number) {
-  if (alpha < 26) {
-    return { glyph: " ", color: "transparent" };
+function ansi256ToRgb(index: number): [number, number, number] {
+  const base16: Array<[number, number, number]> = [
+    [0, 0, 0],
+    [128, 0, 0],
+    [0, 128, 0],
+    [128, 128, 0],
+    [0, 0, 128],
+    [128, 0, 128],
+    [0, 128, 128],
+    [192, 192, 192],
+    [128, 128, 128],
+    [255, 0, 0],
+    [0, 255, 0],
+    [255, 255, 0],
+    [0, 0, 255],
+    [255, 0, 255],
+    [0, 255, 255],
+    [255, 255, 255]
+  ];
+
+  if (index < 16) {
+    return base16[index];
   }
 
-  const light = (0.2126 * r + 0.7152 * g + 0.0722 * b) / 255;
-  let glyph = "█";
+  if (index <= 231) {
+    const n = index - 16;
+    const r = Math.floor(n / 36);
+    const g = Math.floor((n % 36) / 6);
+    const b = n % 6;
+    const steps = [0, 95, 135, 175, 215, 255];
+    return [steps[r], steps[g], steps[b]];
+  }
 
-  if (light > 0.78) glyph = "░";
-  else if (light > 0.58) glyph = "▒";
-  else if (light > 0.4) glyph = "▓";
+  const gray = 8 + (index - 232) * 10;
+  return [gray, gray, gray];
+}
 
-  const lift = (value: number) => Math.min(255, Math.round(value * 0.9 + 20));
-  const color = `rgb(${lift(r)} ${lift(g)} ${lift(b)})`;
+function parseAvatarPayload(payload: AnsiAvatarPayload): AsciiCell[][] {
+  return payload.rows.map((row) =>
+    row.map((colorIndex) => {
+      if (colorIndex === null || Number.isNaN(colorIndex)) {
+        return {
+          glyph: " ",
+          color: "transparent"
+        };
+      }
 
-  return { glyph, color };
+      const [r, g, b] = ansi256ToRgb(colorIndex);
+      return {
+        glyph: "█",
+        color: `rgb(${r} ${g} ${b})`
+      };
+    })
+  );
 }
 
 function HomeTerminal() {
@@ -95,53 +134,25 @@ function HomeTerminal() {
   useEffect(() => {
     let canceled = false;
 
-    const image = new Image();
-    image.src = "/favicon.png";
-    image.decoding = "async";
-
-    image.onload = () => {
-      if (canceled) return;
-
-      const canvas = document.createElement("canvas");
-      canvas.width = ASCII_SIZE.width;
-      canvas.height = ASCII_SIZE.height;
-
-      const ctx = canvas.getContext("2d", { willReadFrequently: true });
-      if (!ctx) {
-        setAsciiRows(fallbackRows);
-        return;
-      }
-
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
-      ctx.drawImage(image, 0, 0, canvas.width, canvas.height);
-
-      const { data } = ctx.getImageData(0, 0, canvas.width, canvas.height);
-      const rows: AsciiCell[][] = [];
-
-      for (let y = 0; y < canvas.height; y += 1) {
-        const row: AsciiCell[] = [];
-
-        for (let x = 0; x < canvas.width; x += 1) {
-          const idx = (y * canvas.width + x) * 4;
-          const r = data[idx];
-          const g = data[idx + 1];
-          const b = data[idx + 2];
-          const alpha = data[idx + 3];
-
-          row.push(mapPixelToGlyph(r, g, b, alpha));
+    fetch("/ansi-avatar.json")
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error(`Cannot load avatar json: ${response.status}`);
         }
-
-        rows.push(row);
-      }
-
-      setAsciiRows(rows);
-    };
-
-    image.onerror = () => {
-      if (!canceled) {
-        setAsciiRows(fallbackRows);
-      }
-    };
+        return response.json() as Promise<AnsiAvatarPayload>;
+      })
+      .then((payload) => {
+        if (canceled) return;
+        if (!Array.isArray(payload.rows) || payload.rows.length === 0) {
+          throw new Error("Invalid avatar rows");
+        }
+        setAsciiRows(parseAvatarPayload(payload));
+      })
+      .catch(() => {
+        if (!canceled) {
+          setAsciiRows(fallbackRows);
+        }
+      });
 
     return () => {
       canceled = true;

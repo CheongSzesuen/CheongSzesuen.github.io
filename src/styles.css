@@ -308,8 +308,7 @@ html {
 }
 
 .home-terminal__ascii-cell {
-  display: inline-block;
-  width: 0.62em;
+  display: inline;
 }
 
 .home-terminal__ascii-loading {
