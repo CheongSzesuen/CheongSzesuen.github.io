@@ -412,13 +412,18 @@ html {
 .site-footer__char {
   display: inline-block;
   cursor: pointer;
+  transform: translateY(0);
+  transition: transform 0.4s cubic-bezier(0.03, 0.72, 0.53, 1.25);
+  animation:
+    footerDropBounce 1.6s cubic-bezier(0.22, 1, 0.36, 1) 0.25s both,
+    footerGlowPulse 3.6s ease-in-out infinite alternate;
   text-shadow:
     0 4px 14px rgba(255, 255, 255, 0.2),
     0 0 32px rgba(130, 210, 255, 0.32);
 }
 
 .site-footer__char:hover {
-  animation: footerCharHop 0.62s cubic-bezier(0.2, 0.9, 0.25, 1.18) both;
+  transform: translateY(-14px);
 }
 
 .site-footer__copyright {
@@ -443,18 +448,40 @@ html {
   }
 }
 
-@keyframes footerCharHop {
+@keyframes footerDropBounce {
   0% {
+    transform: translateY(-60px);
+  }
+  25% {
+    transform: translateY(-60px);
+  }
+  60% {
     transform: translateY(0);
   }
-  35% {
-    transform: translateY(-16px);
+  75% {
+    transform: translateY(-18px);
   }
-  65% {
-    transform: translateY(4px);
+  85% {
+    transform: translateY(0);
+  }
+  92% {
+    transform: translateY(-8px);
   }
   100% {
     transform: translateY(0);
+  }
+}
+
+@keyframes footerGlowPulse {
+  0% {
+    text-shadow:
+      0 4px 14px rgba(255, 255, 255, 0.14),
+      0 0 28px rgba(120, 200, 255, 0.22);
+  }
+  100% {
+    text-shadow:
+      0 6px 22px rgba(255, 255, 255, 0.24),
+      0 0 40px rgba(180, 225, 255, 0.32);
   }
 }
 
