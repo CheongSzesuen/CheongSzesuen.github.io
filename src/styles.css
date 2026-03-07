@@ -24,10 +24,15 @@ body {
   font-family: "Google Sans Flex", "Segoe UI", "PingFang SC", sans-serif;
   background: var(--bg);
   color: var(--text-main);
+  overflow-y: auto;
 }
 
 .page {
   min-height: 100svh;
+}
+
+html {
+  scroll-behavior: smooth;
 }
 
 .topbar {
@@ -91,15 +96,33 @@ body {
 
 .topbar__nav {
   margin: 0;
-  padding: 0.25rem;
+  padding: 0.24rem;
   list-style: none;
   display: flex;
   align-items: center;
   border-radius: 999px;
-  border: 1px solid rgba(255, 255, 255, 0.16);
-  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  background: rgba(255, 255, 255, 0.08);
   -webkit-backdrop-filter: blur(4px) brightness(1.35);
   backdrop-filter: blur(4px) brightness(1.35);
+  box-shadow:
+    inset 0 0 0 1px rgba(255, 255, 255, 0.06),
+    0 8px 22px rgba(0, 0, 0, 0.26);
+  position: relative;
+}
+
+.topbar__nav::before {
+  content: "";
+  position: absolute;
+  inset: 1px;
+  border-radius: 999px;
+  pointer-events: none;
+  background: linear-gradient(
+    to bottom,
+    rgba(255, 255, 255, 0.18),
+    rgba(255, 255, 255, 0.04) 42%,
+    transparent 70%
+  );
 }
 
 .topbar__nav li {
@@ -116,7 +139,7 @@ body {
   transform: translateY(-50%);
   width: 1px;
   height: 18px;
-  background: rgba(255, 255, 255, 0.16);
+  background: rgba(255, 255, 255, 0.13);
 }
 
 .topbar__nav li:not(:last-child) {
@@ -129,15 +152,16 @@ body {
   align-items: center;
   padding: 0.52rem 1.1rem;
   border-radius: 999px;
-  color: rgba(255, 255, 255, 0.7);
+  color: rgba(255, 255, 255, 0.62);
   text-decoration: none;
   font-size: 0.9rem;
-  transition: background-color 0.2s ease, color 0.2s ease;
+  transition: background-color 0.2s ease, color 0.2s ease, transform 0.2s ease;
 }
 
 .topbar__nav a:hover {
   color: #fff;
-  background: rgba(255, 255, 255, 0.12);
+  background: rgba(255, 255, 255, 0.16);
+  transform: translateY(-1px);
 }
 
 .hero {
@@ -212,6 +236,31 @@ body {
   color: var(--text-sub);
 }
 
+.scroll-content {
+  position: relative;
+  z-index: 1;
+}
+
+.anchor-section {
+  min-height: 92svh;
+  scroll-margin-top: 96px;
+  width: min(1120px, calc(100% - 2rem));
+  margin: 0 auto;
+  padding: 92px 0 48px;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.anchor-section h2 {
+  margin: 0 0 0.8rem;
+  font-size: clamp(1.6rem, 3vw, 2.6rem);
+}
+
+.anchor-section p {
+  margin: 0;
+  color: rgba(220, 230, 255, 0.72);
+  line-height: 1.75;
+}
+
 @media (max-width: 768px) {
   .topbar__inner {
     width: calc(100% - 1rem);
@@ -234,5 +283,11 @@ body {
 
   .hero__grid {
     background-size: 28px 28px;
+  }
+
+  .anchor-section {
+    min-height: 70svh;
+    width: calc(100% - 1rem);
+    padding-top: 84px;
   }
 }

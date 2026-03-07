@@ -41,6 +41,21 @@ function App() {
           <p className="hero__hint">后续内容按你的要求逐步添加</p>
         </div>
       </section>
+
+      <main className="scroll-content" aria-label="scroll-sections">
+        <section id="about" className="anchor-section">
+          <h2>About</h2>
+          <p>这里是关于区块，后续按你的指令填充真实内容。</p>
+        </section>
+        <section id="works" className="anchor-section">
+          <h2>Works</h2>
+          <p>这里是作品区块，后续按你的指令填充项目卡片与详情。</p>
+        </section>
+        <section id="friends" className="anchor-section">
+          <h2>Friends</h2>
+          <p>这里是友链区块，后续按你的指令填充列表与交互。</p>
+        </section>
+      </main>
     </div>
   );
 }
