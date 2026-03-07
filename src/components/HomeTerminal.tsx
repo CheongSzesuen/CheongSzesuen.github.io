@@ -11,6 +11,12 @@ type AnsiAvatarPayload = {
   rows: Array<Array<number | [number, number, number] | null>>;
 };
 
+type HtmlAvatarPayload = {
+  markup: string;
+  width: number;
+  height: number;
+};
+
 type TerminalEntry = {
   text: string;
   tone: "role" | "quote" | "note";
@@ -150,6 +156,26 @@ function parseAvatarPayload(payload: AnsiAvatarPayload): AsciiCell[][] {
   );
 }
 
+function parseHtmlAvatarPayload(rawHtml: string): HtmlAvatarPayload | null {
+  const preMatch = rawHtml.match(/<pre[^>]*>([\s\S]*?)<\/pre>/i);
+  if (!preMatch) return null;
+
+  const markup = preMatch[1];
+  const lines = markup.split(/\r?\n/);
+  let width = 0;
+  let height = 0;
+
+  for (const line of lines) {
+    const cells = (line.match(/<span\b/gi) ?? []).length;
+    if (cells === 0) continue;
+    height += 1;
+    width = Math.max(width, cells);
+  }
+
+  if (!width || !height) return null;
+  return { markup, width, height };
+}
+
 function renderSocialIcon(icon: SocialLink["icon"]) {
   if (icon === "gmail") {
     return (
@@ -224,6 +250,11 @@ function HomeTerminal() {
     [randomQuote]
   );
   const [asciiRows, setAsciiRows] = useState<AsciiCell[][]>([]);
+  const [asciiMarkup, setAsciiMarkup] = useState<string | null>(null);
+  const [avatarGridSize, setAvatarGridSize] = useState<{ rows: number; cols: number }>({
+    rows: 0,
+    cols: 0
+  });
   const [revealedRows, setRevealedRows] = useState(0);
   const [asciiStyle, setAsciiStyle] = useState<CSSProperties | undefined>(undefined);
   const [typedLines, setTypedLines] = useState<string[]>(() => terminalEntries.map(() => ""));
@@ -238,25 +269,44 @@ function HomeTerminal() {
   useEffect(() => {
     let canceled = false;
 
-    fetch("/ansi-avatar.json")
-      .then((response) => {
+    const loadAvatar = async () => {
+      try {
+        const htmlResponse = await fetch("/ansi-avatar-source.html");
+        if (htmlResponse.ok) {
+          const rawHtml = await htmlResponse.text();
+          const parsedHtml = parseHtmlAvatarPayload(rawHtml);
+          if (parsedHtml) {
+            if (canceled) return;
+            setAsciiMarkup(parsedHtml.markup);
+            setAvatarGridSize({ rows: parsedHtml.height, cols: parsedHtml.width });
+            return;
+          }
+        }
+      } catch {
+        // ignore and fall back to json
+      }
+
+      try {
+        const response = await fetch("/ansi-avatar.json");
         if (!response.ok) {
           throw new Error(`Cannot load avatar json: ${response.status}`);
         }
-        return response.json() as Promise<AnsiAvatarPayload>;
-      })
-      .then((payload) => {
-        if (canceled) return;
+        const payload = (await response.json()) as AnsiAvatarPayload;
         if (!Array.isArray(payload.rows) || payload.rows.length === 0) {
           throw new Error("Invalid avatar rows");
         }
+        if (canceled) return;
+        setAsciiMarkup(null);
         setAsciiRows(parseAvatarPayload(payload));
-      })
-      .catch(() => {
+      } catch {
         if (!canceled) {
+          setAsciiMarkup(null);
           setAsciiRows(fallbackRows);
         }
-      });
+      }
+    };
+
+    loadAvatar();
 
     return () => {
       canceled = true;
@@ -264,7 +314,7 @@ function HomeTerminal() {
   }, []);
 
   useEffect(() => {
-    if (!asciiRows.length) return;
+    if (asciiMarkup || !asciiRows.length) return;
 
     setRevealedRows(0);
 
@@ -282,19 +332,22 @@ function HomeTerminal() {
     return () => {
       window.clearInterval(timer);
     };
-  }, [asciiRows]);
+  }, [asciiRows, asciiMarkup]);
 
   useEffect(() => {
-    if (!asciiRows.length || !asciiWrapRef.current || !bodyRef.current) return;
+    if (!asciiWrapRef.current || !bodyRef.current) return;
 
-    const rows = asciiRows.length;
-    const cols = asciiRows.reduce((max, row) => Math.max(max, row.length), 0);
+    const usingHtmlAvatar = Boolean(asciiMarkup);
+    const rows = usingHtmlAvatar ? avatarGridSize.rows : asciiRows.length;
+    const cols = usingHtmlAvatar
+      ? avatarGridSize.cols
+      : asciiRows.reduce((max, row) => Math.max(max, row.length), 0);
     if (!rows || !cols) return;
 
-    const baseLineHeight = 1.18;
-    const baseCellWidth = 0.58;
+    const baseLineHeight = usingHtmlAvatar ? 1 : 1.18;
+    const baseCellWidth = usingHtmlAvatar ? 0.6 : 0.58;
     const minFontSize = 2;
-    const maxFontSize = 16;
+    const maxFontSize = usingHtmlAvatar ? 20 : 16;
     const avatarScale = 1.08;
 
     const updateLayout = () => {
@@ -344,7 +397,7 @@ function HomeTerminal() {
     return () => {
       observer.disconnect();
     };
-  }, [asciiRows]);
+  }, [asciiRows, asciiMarkup, avatarGridSize]);
 
   useEffect(() => {
     if (typingState.done) return;
@@ -394,26 +447,35 @@ function HomeTerminal() {
   return (
     <div className="home-terminal" aria-label="home-terminal">
       <div className="home-terminal__ascii-wrap" ref={asciiWrapRef}>
-        <div className="home-terminal__ascii" aria-label="ascii-avatar" style={asciiStyle}>
-          {asciiRows.length
-            ? asciiRows.map((row, rowIndex) => (
-                <div
-                  key={`ascii-row-${rowIndex}`}
-                  className={`home-terminal__ascii-row ${rowIndex < revealedRows ? "is-visible" : ""}`}
-                >
-                  {row.map((cell, colIndex) => (
-                    <span
-                      key={`ascii-cell-${rowIndex}-${colIndex}`}
-                      className="home-terminal__ascii-cell"
-                      style={{ color: cell.color }}
-                    >
-                      {cell.glyph}
-                    </span>
-                  ))}
-                </div>
-              ))
-            : null}
-        </div>
+        {asciiMarkup ? (
+          <div
+            className="home-terminal__ascii home-terminal__ascii--html"
+            aria-label="ascii-avatar"
+            style={asciiStyle}
+            dangerouslySetInnerHTML={{ __html: asciiMarkup }}
+          />
+        ) : (
+          <div className="home-terminal__ascii" aria-label="ascii-avatar" style={asciiStyle}>
+            {asciiRows.length
+              ? asciiRows.map((row, rowIndex) => (
+                  <div
+                    key={`ascii-row-${rowIndex}`}
+                    className={`home-terminal__ascii-row ${rowIndex < revealedRows ? "is-visible" : ""}`}
+                  >
+                    {row.map((cell, colIndex) => (
+                      <span
+                        key={`ascii-cell-${rowIndex}-${colIndex}`}
+                        className="home-terminal__ascii-cell"
+                        style={{ color: cell.color }}
+                      >
+                        {cell.glyph}
+                      </span>
+                    ))}
+                  </div>
+                ))
+              : null}
+          </div>
+        )}
       </div>
 
       <div className="home-terminal__body" ref={bodyRef}>

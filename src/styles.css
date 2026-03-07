@@ -301,6 +301,17 @@ html {
   width: fit-content;
 }
 
+.home-terminal__ascii--html {
+  font-family: "Courier New", "JetBrains Mono", "Fira Code", "Source Code Pro", monospace;
+  line-height: var(--ascii-line-height, 1);
+  white-space: pre;
+}
+
+.home-terminal__ascii--html span {
+  display: inline-block;
+  width: var(--ascii-cell-width, 0.6em);
+}
+
 .home-terminal__ascii::-webkit-scrollbar {
   width: 0;
   height: 0;
