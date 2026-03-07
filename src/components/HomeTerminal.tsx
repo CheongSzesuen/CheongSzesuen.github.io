@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState, type CSSProperties } from "react";
+import { useEffect, useMemo, useRef, useState, type CSSProperties } from "react";
 
 type AsciiCell = {
   glyph: string;
@@ -29,11 +29,7 @@ type ActionLink = {
   emphasis?: boolean;
 };
 
-const terminalEntries: TerminalEntry[] = [
-  { text: "[ Frountend Developer ]", tone: "role" },
-  { text: '"Now I am become a loser, the destroyer of myself."', tone: "quote" },
-  { text: "// VibeCoding Enjoyer", tone: "note" }
-];
+const quoteOptions = ["Stay Hungry,Stay Foolish.", "Open source drives development."] as const;
 
 const socialLinks: SocialLink[] = [
   { href: "mailto:WaiJade@outlook.com", label: "Email", symbol: "@" },
@@ -122,6 +118,17 @@ function parseAvatarPayload(payload: AnsiAvatarPayload): AsciiCell[][] {
 }
 
 function HomeTerminal() {
+  const [randomQuote] = useState(
+    () => quoteOptions[Math.floor(Math.random() * quoteOptions.length)]
+  );
+  const terminalEntries = useMemo<TerminalEntry[]>(
+    () => [
+      { text: "[ Frountend Developer ]", tone: "role" },
+      { text: randomQuote, tone: "quote" },
+      { text: "// VibeCoding Enjoyer", tone: "note" }
+    ],
+    [randomQuote]
+  );
   const [asciiRows, setAsciiRows] = useState<AsciiCell[][]>([]);
   const [revealedRows, setRevealedRows] = useState(0);
   const [asciiStyle, setAsciiStyle] = useState<CSSProperties | undefined>(undefined);
