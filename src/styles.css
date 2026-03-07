@@ -313,6 +313,8 @@ html {
 
 .astro-footer {
   position: relative;
+  display: flex;
+  align-items: stretch;
   z-index: 1;
   min-height: 61.8vh;
   min-height: 61.8svh;
@@ -325,6 +327,7 @@ html {
 
 .astro-footer__content {
   position: relative;
+  flex: 1;
   z-index: 3;
   width: min(1280px, calc(100% - 2rem));
   margin: 0 auto;
