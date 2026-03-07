@@ -228,26 +228,24 @@ function HomeTerminal() {
   return (
     <div className="home-terminal" aria-label="home-terminal">
       <div className="home-terminal__ascii" aria-label="ascii-avatar">
-        {asciiRows.length ? (
-          asciiRows.map((row, rowIndex) => (
-            <div
-              key={`ascii-row-${rowIndex}`}
-              className={`home-terminal__ascii-row ${rowIndex < revealedRows ? "is-visible" : ""}`}
-            >
-              {row.map((cell, colIndex) => (
-                <span
-                  key={`ascii-cell-${rowIndex}-${colIndex}`}
-                  className="home-terminal__ascii-cell"
-                  style={{ color: cell.color }}
-                >
-                  {cell.glyph}
-                </span>
-              ))}
-            </div>
-          ))
-        ) : (
-          <p className="home-terminal__ascii-loading">rendering-avatar...</p>
-        )}
+        {asciiRows.length
+          ? asciiRows.map((row, rowIndex) => (
+              <div
+                key={`ascii-row-${rowIndex}`}
+                className={`home-terminal__ascii-row ${rowIndex < revealedRows ? "is-visible" : ""}`}
+              >
+                {row.map((cell, colIndex) => (
+                  <span
+                    key={`ascii-cell-${rowIndex}-${colIndex}`}
+                    className="home-terminal__ascii-cell"
+                    style={{ color: cell.color }}
+                  >
+                    {cell.glyph}
+                  </span>
+                ))}
+              </div>
+            ))
+          : null}
       </div>
 
       <div className="home-terminal__body">

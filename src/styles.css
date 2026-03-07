@@ -282,7 +282,7 @@ html {
   padding: 0;
   font-family: "JetBrains Mono", "Fira Code", "Source Code Pro", monospace;
   font-size: clamp(4px, 0.56vw, 9px);
-  line-height: 1;
+  line-height: 1.28;
   letter-spacing: 0;
   white-space: nowrap;
   overflow-x: auto;
@@ -308,14 +308,8 @@ html {
 }
 
 .home-terminal__ascii-cell {
-  display: inline;
-}
-
-.home-terminal__ascii-loading {
-  margin: 0;
-  font-family: "JetBrains Mono", "Fira Code", "Source Code Pro", monospace;
-  font-size: clamp(12px, 1.1vw, 14px);
-  color: rgba(193, 208, 255, 0.74);
+  display: inline-block;
+  width: 0.62em;
 }
 
 .home-terminal__body {
