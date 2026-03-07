@@ -9,12 +9,14 @@ const navItems = [
 
 function App() {
   const [activeSection, setActiveSection] = useState<(typeof navItems)[number]["id"]>("home");
+  const [showHeader, setShowHeader] = useState(false);
 
   useEffect(() => {
     const sections = navItems
       .map((item) => document.getElementById(item.id))
       .filter((section): section is HTMLElement => Boolean(section));
     if (!sections.length) return;
+    const aboutSection = document.getElementById("about");
 
     let ticking = false;
 
@@ -31,6 +33,9 @@ function App() {
       }
 
       setActiveSection((prev) => (prev === current ? prev : current));
+
+      const shouldShowHeader = aboutSection ? window.scrollY + 8 >= aboutSection.offsetTop : window.scrollY > 0;
+      setShowHeader((prev) => (prev === shouldShowHeader ? prev : shouldShowHeader));
     };
 
     const onScrollOrResize = () => {
@@ -54,7 +59,7 @@ function App() {
 
   return (
     <div className="page">
-      <header className="topbar" aria-label="main-header">
+      <header className={`topbar ${showHeader ? "is-visible" : ""}`} aria-label="main-header">
         <div className="topbar__fade" aria-hidden="true" />
         <div className="topbar__inner">
           <a className="topbar__brand" href="#home">

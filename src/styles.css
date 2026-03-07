@@ -41,6 +41,16 @@ html {
   left: 0;
   right: 0;
   z-index: 50;
+  opacity: 0;
+  pointer-events: none;
+  transform: translateY(-10px);
+  transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+.topbar.is-visible {
+  opacity: 1;
+  pointer-events: auto;
+  transform: translateY(0);
 }
 
 .topbar__fade {
