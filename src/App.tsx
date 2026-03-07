@@ -16,16 +16,15 @@ function App() {
       .map((item) => document.getElementById(item.id))
       .filter((section): section is HTMLElement => Boolean(section));
     if (!sections.length) return;
-    const aboutSection = document.getElementById("about");
 
     let ticking = false;
 
     const updateActiveSection = () => {
-      const marker = window.scrollY + window.innerHeight * 0.35;
+      const marker = window.scrollY + 112;
       let current = sections[0].id as (typeof navItems)[number]["id"];
 
       for (const section of sections) {
-        if (section.offsetTop - 96 <= marker) {
+        if (section.offsetTop <= marker) {
           current = section.id as (typeof navItems)[number]["id"];
         } else {
           break;
@@ -34,7 +33,7 @@ function App() {
 
       setActiveSection((prev) => (prev === current ? prev : current));
 
-      const shouldShowHeader = aboutSection ? window.scrollY + 8 >= aboutSection.offsetTop : window.scrollY > 0;
+      const shouldShowHeader = current !== "home";
       setShowHeader((prev) => (prev === shouldShowHeader ? prev : shouldShowHeader));
     };
 
