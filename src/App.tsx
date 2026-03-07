@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import HomeTerminal from "./components/HomeTerminal";
 import SiteFooter from "./components/SiteFooter";
 
 const navItems = [
@@ -139,9 +140,7 @@ function App() {
 
       <section id="home" className="hero" aria-label="first-screen">
         <div className="hero__content">
-          <p className="hero__tag">Phase 01</p>
-          <h1 className="hero__title">WaiJade</h1>
-          <p className="hero__hint">后续内容按你的要求逐步添加</p>
+          <HomeTerminal />
         </div>
       </section>
 
