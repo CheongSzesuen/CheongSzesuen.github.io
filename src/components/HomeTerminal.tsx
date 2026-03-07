@@ -202,6 +202,7 @@ function HomeTerminal() {
     const baseCellWidth = 0.58;
     const minFontSize = 2;
     const maxFontSize = 14;
+    const avatarScale = 0.88;
 
     const updateLayout = () => {
       if (window.innerWidth <= 768) {
@@ -217,7 +218,8 @@ function HomeTerminal() {
       const bodyHeight = bodyRef.current?.getBoundingClientRect().height ?? 0;
       if (!bodyHeight) return;
 
-      const nextFontSize = Math.max(minFontSize, Math.min(maxFontSize, bodyHeight / (rows * baseLineHeight)));
+      const baseFontSize = bodyHeight / (rows * baseLineHeight);
+      const nextFontSize = Math.max(minFontSize, Math.min(maxFontSize, baseFontSize * avatarScale));
       const avatarWidth = cols * baseCellWidth * nextFontSize;
 
       setAsciiStyle((prev) => {
