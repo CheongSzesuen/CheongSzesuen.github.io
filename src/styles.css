@@ -448,6 +448,8 @@ html {
   flex-wrap: nowrap;
   gap: 0;
   align-self: center;
+  cursor: default;
+  user-select: none;
   font-size: clamp(72px, 18vw, 220px);
   line-height: 0.82;
   font-weight: 800;
@@ -456,12 +458,16 @@ html {
 
 .astro-footer__glyph-wrap {
   display: inline-block;
+  cursor: default;
+  user-select: none;
   animation: astroDropBounce 1.6s cubic-bezier(0.22, 1, 0.36, 1) both;
   animation-delay: calc(0.25s + (var(--index) * 0.08s));
 }
 
 .astro-footer__glyph {
   display: inline-block;
+  cursor: default;
+  user-select: none;
   transform: translateY(0);
   transition: transform 0.25s ease-out;
   text-shadow:
