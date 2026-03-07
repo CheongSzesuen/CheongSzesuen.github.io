@@ -273,7 +273,7 @@ html {
   margin: 0 auto;
   display: grid;
   grid-template-columns: minmax(280px, 0.95fr) minmax(0, 1.05fr);
-  gap: clamp(18px, 4vw, 64px);
+  gap: clamp(6px, 1.1vw, 16px);
   align-items: center;
 }
 
@@ -281,7 +281,7 @@ html {
   width: 100%;
   display: flex;
   align-items: center;
-  justify-content: center;
+  justify-content: flex-end;
 }
 
 .home-terminal__ascii {
@@ -805,6 +805,10 @@ html {
     grid-template-columns: 1fr;
     gap: 16px;
     align-items: stretch;
+  }
+
+  .home-terminal__ascii-wrap {
+    justify-content: center;
   }
 
   .home-terminal__ascii {
