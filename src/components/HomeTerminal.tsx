@@ -198,8 +198,8 @@ function HomeTerminal() {
     const cols = asciiRows.reduce((max, row) => Math.max(max, row.length), 0);
     if (!rows || !cols) return;
 
-    const baseLineHeight = 1;
-    const baseCellWidth = 0.62;
+    const baseLineHeight = 1.18;
+    const baseCellWidth = 0.58;
     const minFontSize = 2;
     const maxFontSize = 14;
 

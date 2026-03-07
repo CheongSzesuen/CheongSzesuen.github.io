@@ -282,7 +282,7 @@ html {
   padding: 0;
   font-family: "JetBrains Mono", "Fira Code", "Source Code Pro", monospace;
   font-size: var(--ascii-font-size, clamp(4px, 0.56vw, 9px));
-  line-height: var(--ascii-line-height, 1);
+  line-height: var(--ascii-line-height, 1.18);
   letter-spacing: 0;
   white-space: nowrap;
   overflow: visible;
@@ -310,7 +310,7 @@ html {
 
 .home-terminal__ascii-cell {
   display: inline-block;
-  width: var(--ascii-cell-width, 0.62em);
+  width: var(--ascii-cell-width, 0.58em);
 }
 
 .home-terminal__body {
