@@ -10,7 +10,7 @@ function App() {
 
         <div className="hero__content">
           <p className="hero__tag">Phase 01</p>
-          <h1 className="hero__title">首屏背景：方格网</h1>
+          <h1 className="hero__title">WaiJade</h1>
           <p className="hero__hint">后续内容按你的要求逐步添加</p>
         </div>
       </section>
