@@ -29,9 +29,9 @@ const ASCII_SIZE = {
 };
 
 const terminalEntries: TerminalEntry[] = [
-  { text: "[ Frontend Developer | Designer ]", tone: "role" },
+  { text: "[ Frountend Developer ]", tone: "role" },
   { text: '"Now I am become a loser, the destroyer of myself."', tone: "quote" },
-  { text: "// Looking for a new job and wanting to make more friends.", tone: "note" }
+  { text: "// VibeCoding Enjoyer", tone: "note" }
 ];
 
 const socialLinks: SocialLink[] = [
