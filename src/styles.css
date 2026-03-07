@@ -413,7 +413,6 @@ html {
   display: inline-block;
   cursor: pointer;
   transform: translateY(0);
-  transition: transform 0.4s cubic-bezier(0.03, 0.72, 0.53, 1.25);
   animation:
     footerDropBounce 1.6s cubic-bezier(0.22, 1, 0.36, 1) 0.25s both,
     footerGlowPulse 3.6s ease-in-out infinite alternate;
@@ -423,7 +422,9 @@ html {
 }
 
 .site-footer__char:hover {
-  transform: translateY(-14px);
+  animation:
+    footerCharHoverBounce 0.62s cubic-bezier(0.2, 0.9, 0.25, 1.18) both,
+    footerGlowPulse 3.6s ease-in-out infinite alternate;
 }
 
 .site-footer__copyright {
@@ -482,6 +483,21 @@ html {
     text-shadow:
       0 6px 22px rgba(255, 255, 255, 0.24),
       0 0 40px rgba(180, 225, 255, 0.32);
+  }
+}
+
+@keyframes footerCharHoverBounce {
+  0% {
+    transform: translateY(0);
+  }
+  35% {
+    transform: translateY(-16px);
+  }
+  65% {
+    transform: translateY(4px);
+  }
+  100% {
+    transform: translateY(0);
   }
 }
 
