@@ -352,14 +352,22 @@ function HomeTerminal() {
     if (!rows || !cols) return;
 
     const baseLineHeight = usingHtmlAvatar ? 1 : 1.18;
-    const baseCellWidth = usingHtmlAvatar ? 0.54 : 0.58;
+    const squareCellWidth = (rows * baseLineHeight) / cols;
+    const baseCellWidth = usingHtmlAvatar
+      ? Math.max(0.2, Math.min(1, squareCellWidth))
+      : 0.58;
     const minFontSize = 2;
     const maxFontSize = usingHtmlAvatar ? 20 : 16;
     const avatarScale = 1.08;
 
     const updateLayout = () => {
       if (window.innerWidth <= 768) {
-        setAsciiStyle(undefined);
+        setAsciiStyle(
+          {
+            "--ascii-line-height": baseLineHeight.toFixed(4),
+            "--ascii-cell-width": `${baseCellWidth.toFixed(4)}em`
+          } as CSSProperties
+        );
         return;
       }
 
