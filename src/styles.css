@@ -33,13 +33,13 @@ body {
 
 /* 自绘滚动条 */
 * {
-  scrollbar-width: thin;
-  scrollbar-color: rgba(142, 177, 255, 0.68) rgba(12, 16, 26, 0.62);
+  scrollbar-width: auto;
+  scrollbar-color: rgba(255, 255, 255, 0.9) rgba(12, 16, 26, 0.62);
 }
 
 *::-webkit-scrollbar {
-  width: 10px;
-  height: 10px;
+  width: 14px;
+  height: 14px;
 }
 
 *::-webkit-scrollbar-track {
@@ -50,11 +50,11 @@ body {
 *::-webkit-scrollbar-thumb {
   border-radius: 999px;
   border: 2px solid rgba(12, 16, 26, 0.62);
-  background: linear-gradient(180deg, rgba(152, 190, 255, 0.84), rgba(108, 142, 230, 0.72));
+  background: rgba(255, 255, 255, 0.9);
 }
 
 *::-webkit-scrollbar-thumb:hover {
-  background: linear-gradient(180deg, rgba(174, 208, 255, 0.9), rgba(128, 164, 245, 0.82));
+  background: rgba(255, 255, 255, 1);
 }
 
 .page {
@@ -454,9 +454,9 @@ html {
 }
 
 .home-terminal__quote-bar {
-  width: 2px;
+  width: 5px;
   height: 1.45em;
-  border-radius: 999px;
+  border-radius: 0;
   background: #8f94ff;
   box-shadow: 0 0 16px rgba(143, 148, 255, 0.55);
   flex-shrink: 0;
