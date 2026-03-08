@@ -194,7 +194,8 @@ html {
 
 .topbar__brand span {
   font-family: "Ubuntu Mono", "JetBrains Mono", "Fira Code", "Source Code Pro", monospace;
-  font-weight: 820;
+  font-size: clamp(1.05rem, 1.15vw, 1.28rem);
+  font-weight: 900;
   opacity: 0;
   transform: translateX(-8px);
 }
@@ -964,7 +965,7 @@ html {
   }
 
   .topbar__brand span {
-    font-size: 0.95rem;
+    font-size: 1.02rem;
   }
 
   .topbar__nav a {
