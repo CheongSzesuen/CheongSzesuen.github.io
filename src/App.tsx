@@ -4,17 +4,17 @@ import SiteFooter from "./components/SiteFooter";
 import StaggeredMenu, { type StaggeredMenuItem, type StaggeredMenuSocialItem } from "./components/StaggeredMenu";
 
 const navItems = [
-  { id: "home", label: "Home", href: "#home" },
-  { id: "about", label: "About", href: "#about" },
-  { id: "works", label: "Works", href: "#works" },
-  { id: "friends", label: "Friends", href: "#friends" }
+  { id: "home", label: "HOME", href: "#home" },
+  { id: "about", label: "ABOUT", href: "#about" },
+  { id: "works", label: "WORKS", href: "#works" },
+  { id: "friends", label: "FRIENDS", href: "#friends" }
 ] as const;
 
 const mobileMenuItems: StaggeredMenuItem[] = [
-  { label: "Home", ariaLabel: "Go to home section", link: "#home" },
-  { label: "About", ariaLabel: "Go to about section", link: "#about" },
-  { label: "Works", ariaLabel: "Go to works section", link: "#works" },
-  { label: "Friends", ariaLabel: "Go to friends section", link: "#friends" }
+  { label: "HOME", ariaLabel: "Go to home section", link: "#home" },
+  { label: "ABOUT", ariaLabel: "Go to about section", link: "#about" },
+  { label: "WORKS", ariaLabel: "Go to works section", link: "#works" },
+  { label: "FRIENDS", ariaLabel: "Go to friends section", link: "#friends" }
 ];
 
 const mobileSocialItems: StaggeredMenuSocialItem[] = [
