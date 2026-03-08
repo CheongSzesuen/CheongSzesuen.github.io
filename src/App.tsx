@@ -100,7 +100,8 @@ function App() {
       const aboutTopInViewport = aboutSection
         ? aboutSection.getBoundingClientRect().top
         : Number.POSITIVE_INFINITY;
-      const shouldShowHeader = aboutTopInViewport <= window.innerHeight * 0.6;
+      const headerShowTriggerRatio = window.innerWidth <= 768 ? 0.82 : 0.72;
+      const shouldShowHeader = aboutTopInViewport <= window.innerHeight * headerShowTriggerRatio;
       const isTabletViewport = window.innerWidth > 768 && window.innerWidth <= 1024;
 
       if (!shouldShowHeader && isTabletViewport && mobileMenuOpenRef.current) {
