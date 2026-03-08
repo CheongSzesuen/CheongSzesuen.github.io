@@ -922,9 +922,15 @@ html {
   }
 }
 
+@media (max-width: 1024px) {
+  .topbar__inner {
+    width: calc(100% - 2rem);
+  }
+}
+
 @media (max-width: 768px) {
   .topbar__inner {
-    width: calc(100% - 1rem);
+    width: calc(100% - 2.5rem);
     padding: 0.8rem 0;
   }
 
