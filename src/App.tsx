@@ -77,7 +77,10 @@ function App() {
 
       setActiveSection((prev) => (prev === current ? prev : current));
 
-      const shouldShowHeader = current !== "home";
+      const aboutTopInViewport = aboutSection
+        ? aboutSection.getBoundingClientRect().top
+        : Number.POSITIVE_INFINITY;
+      const shouldShowHeader = aboutTopInViewport <= window.innerHeight * 0.5;
       setShowHeader((prev) => (prev === shouldShowHeader ? prev : shouldShowHeader));
 
       updateHeroBackgroundFade();
