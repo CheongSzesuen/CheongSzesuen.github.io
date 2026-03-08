@@ -176,7 +176,8 @@ html {
   align-items: center;
   gap: 0.65rem;
   color: #fff;
-  font-weight: 650;
+  font-family: "Ubuntu Mono", "JetBrains Mono", "Fira Code", "Source Code Pro", monospace;
+  font-weight: 760;
   letter-spacing: 0.01em;
   text-decoration: none;
 }
@@ -187,6 +188,29 @@ html {
   border-radius: 999px;
   object-fit: cover;
   border: 1px solid rgba(255, 255, 255, 0.2);
+  opacity: 0;
+  transform: translateX(-14px);
+}
+
+.topbar__brand span {
+  font-family: "Ubuntu Mono", "JetBrains Mono", "Fira Code", "Source Code Pro", monospace;
+  font-weight: 820;
+  opacity: 0;
+  transform: translateX(-8px);
+}
+
+.topbar.is-visible .topbar__brand img {
+  opacity: 1;
+  transform: translateX(0);
+  transition: opacity 0.42s ease, transform 0.42s ease;
+  transition-delay: 0.06s;
+}
+
+.topbar.is-visible .topbar__brand span {
+  opacity: 1;
+  transform: translateX(0);
+  transition: opacity 0.42s ease, transform 0.42s ease;
+  transition-delay: 0.14s;
 }
 
 .topbar__nav-wrap {
