@@ -160,20 +160,27 @@ function parseHtmlAvatarPayload(rawHtml: string): HtmlAvatarPayload | null {
   const preMatch = rawHtml.match(/<pre[^>]*>([\s\S]*?)<\/pre>/i);
   if (!preMatch) return null;
 
-  const markup = preMatch[1];
-  const lines = markup.split(/\r?\n/);
+  const originalMarkup = preMatch[1];
+  const lines = originalMarkup.split(/\r?\n/);
+  const spanCellPattern = /<span\b[\s\S]*?<\/span>/gi;
+  const duplicatedLines: string[] = [];
   let width = 0;
   let height = 0;
 
   for (const line of lines) {
-    const cells = (line.match(/<span\b/gi) ?? []).length;
-    if (cells === 0) continue;
+    const cells = line.match(spanCellPattern) ?? [];
+    if (cells.length === 0) continue;
+
+    // 每行每个最小单元在其后再复制一次：1 -> 11, 2 -> 22, 3 -> 33
+    const doubledLine = cells.map((cell) => `${cell}${cell}`).join("");
+    duplicatedLines.push(doubledLine);
+
     height += 1;
-    width = Math.max(width, cells);
+    width = Math.max(width, cells.length * 2);
   }
 
   if (!width || !height) return null;
-  return { markup, width, height };
+  return { markup: duplicatedLines.join("\n"), width, height };
 }
 
 function renderSocialIcon(icon: SocialLink["icon"]) {
