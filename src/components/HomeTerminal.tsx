@@ -345,7 +345,7 @@ function HomeTerminal() {
     if (!rows || !cols) return;
 
     const baseLineHeight = usingHtmlAvatar ? 1 : 1.18;
-    const baseCellWidth = usingHtmlAvatar ? 0.6 : 0.58;
+    const baseCellWidth = usingHtmlAvatar ? 0.54 : 0.58;
     const minFontSize = 2;
     const maxFontSize = usingHtmlAvatar ? 20 : 16;
     const avatarScale = 1.08;

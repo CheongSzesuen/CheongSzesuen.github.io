@@ -311,7 +311,7 @@ html {
 
 .home-terminal__ascii--html span {
   display: inline-block;
-  width: var(--ascii-cell-width, 0.6em);
+  width: var(--ascii-cell-width, 0.54em);
 }
 
 .home-terminal__ascii::-webkit-scrollbar {
