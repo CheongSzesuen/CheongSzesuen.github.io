@@ -923,6 +923,8 @@ html {
 
   .home-terminal__body {
     gap: 10px;
+    align-items: center;
+    text-align: center;
   }
 
   .home-terminal__title {
@@ -943,6 +945,10 @@ html {
 
   .home-terminal__social-link {
     padding: 0.36rem 0.6rem;
+  }
+
+  .home-terminal__social {
+    justify-content: center;
   }
 
   .home-terminal__action {
