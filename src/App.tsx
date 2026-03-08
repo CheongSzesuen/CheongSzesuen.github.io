@@ -27,7 +27,7 @@ const friendsLinks = [
     name: "Zaona",
     url: "https://zaona.top/",
     avatar: "https://zaona.top/avatar.png",
-    description: ""
+    description: "Explore The Edge Of Imagination"
   }
 ] as const;
 
