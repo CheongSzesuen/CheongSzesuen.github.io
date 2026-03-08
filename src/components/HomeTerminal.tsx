@@ -272,6 +272,7 @@ function HomeTerminal() {
   });
   const asciiWrapRef = useRef<HTMLDivElement | null>(null);
   const bodyRef = useRef<HTMLDivElement | null>(null);
+  const htmlRows = useMemo(() => (asciiMarkup ? asciiMarkup.split("\n") : []), [asciiMarkup]);
 
   useEffect(() => {
     let canceled = false;
@@ -284,6 +285,16 @@ function HomeTerminal() {
           const parsedHtml = parseHtmlAvatarPayload(rawHtml);
           if (parsedHtml) {
             if (canceled) return;
+            const baseLineHeight = 1;
+            const squareCellWidth = (parsedHtml.height * baseLineHeight) / parsedHtml.width;
+            const baseCellWidth = Math.max(0.2, Math.min(1, squareCellWidth));
+            setAsciiStyle(
+              {
+                "--ascii-line-height": baseLineHeight.toFixed(4),
+                "--ascii-cell-width": `${baseCellWidth.toFixed(4)}em`
+              } as CSSProperties
+            );
+            setAsciiRows([]);
             setAsciiMarkup(parsedHtml.markup);
             setAvatarGridSize({ rows: parsedHtml.height, cols: parsedHtml.width });
             return;
@@ -321,13 +332,14 @@ function HomeTerminal() {
   }, []);
 
   useEffect(() => {
-    if (asciiMarkup || !asciiRows.length) return;
+    const totalRows = asciiMarkup ? htmlRows.length : asciiRows.length;
+    if (!totalRows) return;
 
     setRevealedRows(0);
 
     const timer = window.setInterval(() => {
       setRevealedRows((prev) => {
-        if (prev >= asciiRows.length) {
+        if (prev >= totalRows) {
           window.clearInterval(timer);
           return prev;
         }
@@ -339,7 +351,7 @@ function HomeTerminal() {
     return () => {
       window.clearInterval(timer);
     };
-  }, [asciiRows, asciiMarkup]);
+  }, [asciiRows, asciiMarkup, htmlRows]);
 
   useEffect(() => {
     if (!asciiWrapRef.current || !bodyRef.current) return;
@@ -463,12 +475,15 @@ function HomeTerminal() {
     <div className="home-terminal" aria-label="home-terminal">
       <div className="home-terminal__ascii-wrap" ref={asciiWrapRef}>
         {asciiMarkup ? (
-          <div
-            className="home-terminal__ascii home-terminal__ascii--html"
-            aria-label="ascii-avatar"
-            style={asciiStyle}
-            dangerouslySetInnerHTML={{ __html: asciiMarkup }}
-          />
+          <div className="home-terminal__ascii home-terminal__ascii--html" aria-label="ascii-avatar" style={asciiStyle}>
+            {htmlRows.map((rowMarkup, rowIndex) => (
+              <div
+                key={`ascii-html-row-${rowIndex}`}
+                className={`home-terminal__ascii-row ${rowIndex < revealedRows ? "is-visible" : ""}`}
+                dangerouslySetInnerHTML={{ __html: rowMarkup }}
+              />
+            ))}
+          </div>
         ) : (
           <div className="home-terminal__ascii" aria-label="ascii-avatar" style={asciiStyle}>
             {asciiRows.length
