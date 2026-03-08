@@ -111,6 +111,17 @@
 @media (max-width: 768px) {
   .about-section__copy {
     text-align: left;
+    gap: 0.9rem;
+  }
+
+  .about-section__lead {
+    font-size: clamp(1.08rem, 4.5vw, 1.2rem);
+    line-height: 1.82;
+  }
+
+  .about-section__text {
+    font-size: clamp(1rem, 4.1vw, 1.12rem);
+    line-height: 1.9;
   }
 
   .about-section__gallery {

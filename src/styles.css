@@ -1000,7 +1000,7 @@ html {
   }
 
   .home-terminal {
-    width: calc(100% - 1rem);
+    width: calc(100% - 2.5rem);
     grid-template-columns: 1fr;
     gap: 16px;
     align-items: stretch;
@@ -1029,11 +1029,11 @@ html {
   }
 
   .home-terminal__line {
-    font-size: clamp(0.88rem, 3.35vw, 1rem);
+    font-size: clamp(0.96rem, 3.9vw, 1.08rem);
   }
 
   .home-terminal__line--note {
-    font-size: clamp(0.76rem, 3vw, 0.9rem);
+    font-size: clamp(0.86rem, 3.4vw, 0.98rem);
   }
 
   .home-terminal__social-link {
@@ -1055,8 +1055,13 @@ html {
 
   .anchor-section {
     min-height: 70svh;
-    width: calc(100% - 1rem);
+    width: calc(100% - 2.5rem);
     padding-top: 84px;
+  }
+
+  .anchor-section p {
+    font-size: clamp(1rem, 4.1vw, 1.1rem);
+    line-height: 1.82;
   }
 
   .astro-footer__content {
