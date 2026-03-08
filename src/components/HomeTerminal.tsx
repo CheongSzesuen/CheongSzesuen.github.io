@@ -167,12 +167,35 @@ function parseHtmlAvatarPayload(rawHtml: string): HtmlAvatarPayload | null {
   let width = 0;
   let height = 0;
 
+  const withBlackFallbackColor = (cell: string): string => {
+    const styleMatch = cell.match(/style\s*=\s*(['"])([\s\S]*?)\1/i);
+    if (!styleMatch) {
+      return cell.replace(
+        /<span\b/i,
+        '<span style="color: rgb(0 0 0);"'
+      );
+    }
+
+    const quote = styleMatch[1];
+    const styleValue = styleMatch[2];
+    if (/color\s*:/i.test(styleValue)) {
+      return cell;
+    }
+
+    const mergedStyle = styleValue.trim()
+      ? `${styleValue.trim()}; color: rgb(0 0 0);`
+      : "color: rgb(0 0 0);";
+
+    return cell.replace(styleMatch[0], `style=${quote}${mergedStyle}${quote}`);
+  };
+
   for (const line of lines) {
     const cells = line.match(spanCellPattern) ?? [];
     if (cells.length === 0) continue;
 
+    const normalizedCells = cells.map(withBlackFallbackColor);
     // 每行每个最小单元在其后再复制一次：1 -> 11, 2 -> 22, 3 -> 33
-    const doubledLine = cells.map((cell) => `${cell}${cell}`).join("");
+    const doubledLine = normalizedCells.map((cell) => `${cell}${cell}`).join("");
     duplicatedLines.push(doubledLine);
 
     height += 1;
@@ -362,7 +385,7 @@ function HomeTerminal() {
     }
 
     setRevealedCells(0);
-    const step = Math.max(1, Math.ceil(totalRevealCells / 140));
+    const step = Math.max(1, Math.ceil(totalRevealCells / 70));
 
     const timer = window.setInterval(() => {
       setRevealedCells((prev) => {
