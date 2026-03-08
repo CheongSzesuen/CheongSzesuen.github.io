@@ -1,6 +1,7 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import HomeTerminal from "./components/HomeTerminal";
 import SiteFooter from "./components/SiteFooter";
+import StaggeredMenu, { type StaggeredMenuItem, type StaggeredMenuSocialItem } from "./components/StaggeredMenu";
 
 const navItems = [
   { id: "home", label: "Home", href: "#home" },
@@ -9,9 +10,28 @@ const navItems = [
   { id: "friends", label: "Friends", href: "#friends" }
 ] as const;
 
+const mobileMenuItems: StaggeredMenuItem[] = [
+  { label: "Home", ariaLabel: "Go to home section", link: "#home" },
+  { label: "About", ariaLabel: "Go to about section", link: "#about" },
+  { label: "Works", ariaLabel: "Go to works section", link: "#works" },
+  { label: "Friends", ariaLabel: "Go to friends section", link: "#friends" }
+];
+
+const mobileSocialItems: StaggeredMenuSocialItem[] = [
+  { label: "GitHub", link: "https://github.com/CheongSzesuen" },
+  { label: "BandBBS", link: "https://www.bandbbs.cn/members/344224/" }
+];
+
 function App() {
   const [activeSection, setActiveSection] = useState<(typeof navItems)[number]["id"]>("home");
   const [showHeader, setShowHeader] = useState(false);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const mobileMenuOpenRef = useRef(false);
+  const hideHeaderTimeoutRef = useRef<number | null>(null);
+
+  useEffect(() => {
+    mobileMenuOpenRef.current = isMobileMenuOpen;
+  }, [isMobileMenuOpen]);
 
   useEffect(() => {
     const sections = navItems
@@ -81,7 +101,25 @@ function App() {
         ? aboutSection.getBoundingClientRect().top
         : Number.POSITIVE_INFINITY;
       const shouldShowHeader = aboutTopInViewport <= window.innerHeight * 0.6;
-      setShowHeader((prev) => (prev === shouldShowHeader ? prev : shouldShowHeader));
+      const isTabletViewport = window.innerWidth > 768 && window.innerWidth <= 1024;
+
+      if (!shouldShowHeader && isTabletViewport && mobileMenuOpenRef.current) {
+        setIsMobileMenuOpen(false);
+        if (hideHeaderTimeoutRef.current !== null) {
+          window.clearTimeout(hideHeaderTimeoutRef.current);
+        }
+        setShowHeader(true);
+        hideHeaderTimeoutRef.current = window.setTimeout(() => {
+          setShowHeader(false);
+          hideHeaderTimeoutRef.current = null;
+        }, 340);
+      } else {
+        if (hideHeaderTimeoutRef.current !== null) {
+          window.clearTimeout(hideHeaderTimeoutRef.current);
+          hideHeaderTimeoutRef.current = null;
+        }
+        setShowHeader((prev) => (prev === shouldShowHeader ? prev : shouldShowHeader));
+      }
 
       updateHeroBackgroundFade();
     };
@@ -104,6 +142,10 @@ function App() {
       window.removeEventListener("resize", onScrollOrResize);
       document.documentElement.style.removeProperty("--hero-grid-opacity");
       document.documentElement.style.removeProperty("--hero-bright-opacity");
+      if (hideHeaderTimeoutRef.current !== null) {
+        window.clearTimeout(hideHeaderTimeoutRef.current);
+        hideHeaderTimeoutRef.current = null;
+      }
     };
   }, []);
 
@@ -123,7 +165,7 @@ function App() {
             <span>WaiJade</span>
           </a>
 
-          <nav className="topbar__nav-wrap" aria-label="主导航">
+          <nav className="topbar__nav-wrap topbar__nav-wrap--desktop" aria-label="主导航">
             <ul className="topbar__nav">
               {navItems.map((item) => (
                 <li key={item.href}>
@@ -138,6 +180,23 @@ function App() {
               ))}
             </ul>
           </nav>
+
+          <div className="topbar__mobile-menu" aria-label="移动端导航">
+            <StaggeredMenu
+              open={isMobileMenuOpen}
+              onOpenChange={setIsMobileMenuOpen}
+              position="right"
+              items={mobileMenuItems}
+              socialItems={mobileSocialItems}
+              displaySocials
+              displayItemNumbering
+              menuButtonColor="rgba(255, 255, 255, 0.8)"
+              openMenuButtonColor="#fff"
+              changeMenuColorOnOpen
+              colors={["rgba(85, 111, 186, 0.92)", "rgba(24, 38, 72, 0.98)"]}
+              accentColor="#8fa7ff"
+            />
+          </div>
         </div>
       </header>
 
