@@ -42,6 +42,7 @@ function App() {
     const aboutSection = document.getElementById("about");
 
     let ticking = false;
+    let lastScrollY = window.scrollY;
     let lastGridOpacity = -1;
     let lastBrightOpacity = -1;
     const getSectionTop = (section: HTMLElement) => section.getBoundingClientRect().top + window.scrollY;
@@ -100,8 +101,11 @@ function App() {
       const aboutTopInViewport = aboutSection
         ? aboutSection.getBoundingClientRect().top
         : Number.POSITIVE_INFINITY;
+      const isScrollingUp = window.scrollY < lastScrollY;
       const headerShowTriggerRatio = window.innerWidth <= 768 ? 0.82 : 0.72;
-      const shouldShowHeader = aboutTopInViewport <= window.innerHeight * headerShowTriggerRatio;
+      const headerHideTriggerRatio = window.innerWidth <= 768 ? 0.74 : 0.66;
+      const headerTriggerRatio = isScrollingUp ? headerHideTriggerRatio : headerShowTriggerRatio;
+      const shouldShowHeader = aboutTopInViewport <= window.innerHeight * headerTriggerRatio;
       const isTabletViewport = window.innerWidth > 768 && window.innerWidth <= 1024;
 
       if (!shouldShowHeader && isTabletViewport && mobileMenuOpenRef.current) {
@@ -123,6 +127,7 @@ function App() {
       }
 
       updateHeroBackgroundFade();
+      lastScrollY = window.scrollY;
     };
 
     const onScrollOrResize = () => {
