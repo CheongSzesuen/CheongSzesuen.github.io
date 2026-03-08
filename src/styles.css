@@ -6,6 +6,7 @@
   --hero-bright-opacity: 1;
   --text-main: #f4f7ff;
   --text-primary: #f4f7ff;
+  --accent-primary: #8fa7ff;
   --color-black: #05070b;
   --text-sub: rgba(220, 230, 255, 0.72);
 }
@@ -252,8 +253,9 @@ html {
   border-radius: 9999px;
   color: rgba(255, 255, 255, 0.6);
   text-decoration: none;
+  font-family: "JetBrains Mono", "Fira Code", "Source Code Pro", monospace;
   font-size: 14px;
-  font-weight: 500;
+  font-weight: 800;
   line-height: 20px;
   mix-blend-mode: lighten;
   transition: background-color 0.3s ease, color 0.3s ease;
@@ -566,9 +568,9 @@ html {
   background: rgba(255, 255, 255, 0.1);
   color: rgba(234, 241, 255, 0.95);
   text-decoration: none;
-  font-family: "Google Sans Flex", "Segoe UI", "PingFang SC", sans-serif;
+  font-family: "JetBrains Mono", "Fira Code", "Source Code Pro", monospace;
   font-size: clamp(0.88rem, 1.05vw, 1rem);
-  font-weight: 600;
+  font-weight: 800;
   line-height: 1;
   white-space: nowrap;
   --action-glow: rgba(255, 255, 255, 0.5);
@@ -689,7 +691,9 @@ html {
 
 .anchor-section h2 {
   margin: 0 0 0.8rem;
+  font-family: "JetBrains Mono", "Fira Code", "Source Code Pro", monospace;
   font-size: clamp(1.6rem, 3vw, 2.6rem);
+  font-weight: 800;
 }
 
 .anchor-section p {
