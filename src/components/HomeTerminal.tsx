@@ -538,7 +538,14 @@ function HomeTerminal() {
         <div className="home-terminal__lines" aria-live="polite">
           {terminalEntries.map((entry, index) => (
             <p key={`terminal-line-${entry.tone}-${index}`} className={`home-terminal__line home-terminal__line--${entry.tone}`}>
-              {entry.text}
+              {entry.tone === "quote" ? (
+                <span className="home-terminal__quote-wrap">
+                  <span className="home-terminal__quote-bar" aria-hidden="true" />
+                  <span className="home-terminal__quote-text">"{entry.text}"</span>
+                </span>
+              ) : (
+                entry.text
+              )}
             </p>
           ))}
         </div>
