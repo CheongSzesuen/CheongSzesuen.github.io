@@ -362,7 +362,7 @@ function HomeTerminal() {
     }
 
     setRevealedCells(0);
-    const step = Math.max(1, Math.ceil(totalRevealCells / 220));
+    const step = Math.max(1, Math.ceil(totalRevealCells / 140));
 
     const timer = window.setInterval(() => {
       setRevealedCells((prev) => {
@@ -373,7 +373,7 @@ function HomeTerminal() {
 
         return Math.min(totalRevealCells, prev + step);
       });
-    }, 12);
+    }, 8);
 
     return () => {
       window.clearInterval(timer);
