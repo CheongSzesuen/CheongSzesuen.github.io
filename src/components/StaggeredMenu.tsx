@@ -260,14 +260,16 @@ function StaggeredMenu({
     if (!hashLink.startsWith("#")) return;
     const sectionId = hashLink.slice(1);
     if (!sectionId) return;
-    const section = document.getElementById(sectionId);
-    if (!section) return;
-
-    const scrollOffset = window.innerWidth <= 1024 ? 94 : 108;
-    const targetTop = Math.max(0, section.getBoundingClientRect().top + window.scrollY - scrollOffset);
 
     window.requestAnimationFrame(() => {
       window.requestAnimationFrame(() => {
+        const section = document.getElementById(sectionId);
+        if (!section) return;
+
+        const isMobileViewport = window.matchMedia("(max-width: 768px)").matches;
+        const scrollOffset = isMobileViewport ? 0 : window.innerWidth <= 1024 ? 94 : 108;
+        const targetTop = Math.max(0, section.getBoundingClientRect().top + window.scrollY - scrollOffset);
+
         window.scrollTo({
           top: targetTop,
           behavior: "smooth"
