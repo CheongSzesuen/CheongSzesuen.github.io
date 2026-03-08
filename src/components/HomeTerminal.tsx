@@ -262,7 +262,7 @@ function HomeTerminal() {
     rows: 0,
     cols: 0
   });
-  const [revealedRows, setRevealedRows] = useState(0);
+  const [revealedCells, setRevealedCells] = useState(0);
   const [asciiStyle, setAsciiStyle] = useState<CSSProperties | undefined>(undefined);
   const [typedLines, setTypedLines] = useState<string[]>(() => terminalEntries.map(() => ""));
   const [typingState, setTypingState] = useState({
@@ -273,6 +273,30 @@ function HomeTerminal() {
   const asciiWrapRef = useRef<HTMLDivElement | null>(null);
   const bodyRef = useRef<HTMLDivElement | null>(null);
   const htmlRows = useMemo(() => (asciiMarkup ? asciiMarkup.split("\n") : []), [asciiMarkup]);
+  const htmlRowCellCounts = useMemo(
+    () =>
+      htmlRows.map((row) => {
+        const cells = row.match(/<span\b[\s\S]*?<\/span>/gi) ?? [];
+        return cells.length;
+      }),
+    [htmlRows]
+  );
+  const revealRowLengths = useMemo(
+    () => (asciiMarkup ? htmlRowCellCounts : asciiRows.map((row) => row.length)),
+    [asciiMarkup, htmlRowCellCounts, asciiRows]
+  );
+  const revealRowOffsets = useMemo(() => {
+    let offset = 0;
+    return revealRowLengths.map((len) => {
+      const rowStart = offset;
+      offset += len;
+      return rowStart;
+    });
+  }, [revealRowLengths]);
+  const totalRevealCells = useMemo(
+    () => revealRowLengths.reduce((sum, len) => sum + len, 0),
+    [revealRowLengths]
+  );
 
   useEffect(() => {
     let canceled = false;
@@ -332,26 +356,29 @@ function HomeTerminal() {
   }, []);
 
   useEffect(() => {
-    const totalRows = asciiMarkup ? htmlRows.length : asciiRows.length;
-    if (!totalRows) return;
+    if (!totalRevealCells) {
+      setRevealedCells(0);
+      return;
+    }
 
-    setRevealedRows(0);
+    setRevealedCells(0);
+    const step = Math.max(1, Math.ceil(totalRevealCells / 220));
 
     const timer = window.setInterval(() => {
-      setRevealedRows((prev) => {
-        if (prev >= totalRows) {
+      setRevealedCells((prev) => {
+        if (prev >= totalRevealCells) {
           window.clearInterval(timer);
           return prev;
         }
 
-        return prev + 1;
+        return Math.min(totalRevealCells, prev + step);
       });
-    }, 22);
+    }, 12);
 
     return () => {
       window.clearInterval(timer);
     };
-  }, [asciiRows, asciiMarkup, htmlRows]);
+  }, [totalRevealCells]);
 
   useEffect(() => {
     if (!asciiWrapRef.current || !bodyRef.current) return;
@@ -471,6 +498,15 @@ function HomeTerminal() {
     };
   }, [typingState]);
 
+  const getRowRevealWidth = (rowIndex: number): string => {
+    const rowLength = revealRowLengths[rowIndex] ?? 0;
+    if (!rowLength) return "0%";
+
+    const rowStart = revealRowOffsets[rowIndex] ?? 0;
+    const visibleInRow = Math.max(0, Math.min(rowLength, revealedCells - rowStart));
+    return `${((visibleInRow / rowLength) * 100).toFixed(2)}%`;
+  };
+
   return (
     <div className="home-terminal" aria-label="home-terminal">
       <div className="home-terminal__ascii-wrap" ref={asciiWrapRef}>
@@ -479,7 +515,8 @@ function HomeTerminal() {
             {htmlRows.map((rowMarkup, rowIndex) => (
               <div
                 key={`ascii-html-row-${rowIndex}`}
-                className={`home-terminal__ascii-row ${rowIndex < revealedRows ? "is-visible" : ""}`}
+                className={`home-terminal__ascii-row ${revealedCells > (revealRowOffsets[rowIndex] ?? 0) ? "is-visible" : ""}`}
+                style={{ "--row-reveal-width": getRowRevealWidth(rowIndex) } as CSSProperties}
                 dangerouslySetInnerHTML={{ __html: rowMarkup }}
               />
             ))}
@@ -490,7 +527,8 @@ function HomeTerminal() {
               ? asciiRows.map((row, rowIndex) => (
                   <div
                     key={`ascii-row-${rowIndex}`}
-                    className={`home-terminal__ascii-row ${rowIndex < revealedRows ? "is-visible" : ""}`}
+                    className={`home-terminal__ascii-row ${revealedCells > (revealRowOffsets[rowIndex] ?? 0) ? "is-visible" : ""}`}
+                    style={{ "--row-reveal-width": getRowRevealWidth(rowIndex) } as CSSProperties}
                   >
                     {row.map((cell, colIndex) => (
                       <span
