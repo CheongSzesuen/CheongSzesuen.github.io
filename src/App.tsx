@@ -80,7 +80,7 @@ function App() {
       const aboutTopInViewport = aboutSection
         ? aboutSection.getBoundingClientRect().top
         : Number.POSITIVE_INFINITY;
-      const shouldShowHeader = aboutTopInViewport <= window.innerHeight * 0.5;
+      const shouldShowHeader = aboutTopInViewport <= window.innerHeight * 0.6;
       setShowHeader((prev) => (prev === shouldShowHeader ? prev : shouldShowHeader));
 
       updateHeroBackgroundFade();
