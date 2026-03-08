@@ -287,12 +287,6 @@ function HomeTerminal() {
   });
   const [revealedCells, setRevealedCells] = useState(0);
   const [asciiStyle, setAsciiStyle] = useState<CSSProperties | undefined>(undefined);
-  const [typedLines, setTypedLines] = useState<string[]>(() => terminalEntries.map(() => ""));
-  const [typingState, setTypingState] = useState({
-    lineIndex: 0,
-    charIndex: 0,
-    done: false
-  });
   const asciiWrapRef = useRef<HTMLDivElement | null>(null);
   const bodyRef = useRef<HTMLDivElement | null>(null);
   const htmlRows = useMemo(() => (asciiMarkup ? asciiMarkup.split("\n") : []), [asciiMarkup]);
@@ -476,51 +470,6 @@ function HomeTerminal() {
     };
   }, [asciiRows, asciiMarkup, avatarGridSize]);
 
-  useEffect(() => {
-    if (typingState.done) return;
-
-    const entry = terminalEntries[typingState.lineIndex];
-    const delay = typingState.charIndex === 0 ? 260 : 24;
-
-    const timer = window.setTimeout(() => {
-      const nextCharIndex = typingState.charIndex + 1;
-
-      setTypedLines((prev) => {
-        const next = [...prev];
-        next[typingState.lineIndex] = entry.text.slice(0, nextCharIndex);
-        return next;
-      });
-
-      if (nextCharIndex >= entry.text.length) {
-        if (typingState.lineIndex >= terminalEntries.length - 1) {
-          setTypingState({
-            lineIndex: typingState.lineIndex,
-            charIndex: nextCharIndex,
-            done: true
-          });
-          return;
-        }
-
-        setTypingState({
-          lineIndex: typingState.lineIndex + 1,
-          charIndex: 0,
-          done: false
-        });
-
-        return;
-      }
-
-      setTypingState((prev) => ({
-        ...prev,
-        charIndex: nextCharIndex
-      }));
-    }, delay);
-
-    return () => {
-      window.clearTimeout(timer);
-    };
-  }, [typingState]);
-
   const getRowRevealWidth = (rowIndex: number): string => {
     const rowLength = revealRowLengths[rowIndex] ?? 0;
     if (!rowLength) return "0%";
@@ -587,26 +536,11 @@ function HomeTerminal() {
         </h1>
 
         <div className="home-terminal__lines" aria-live="polite">
-          {terminalEntries.map((entry, index) => {
-            const typed = typedLines[index];
-            const isCurrentLine = !typingState.done && typingState.lineIndex === index;
-            const shouldShowLine = typed.length > 0 || index <= typingState.lineIndex;
-            const displayText = shouldShowLine ? typed : entry.text;
-
-            return (
-              <p
-                key={`terminal-line-${entry.tone}-${index}`}
-                className={`home-terminal__line home-terminal__line--${entry.tone} ${shouldShowLine ? "is-visible" : "is-hidden"}`}
-              >
-                {displayText}
-                {isCurrentLine ? (
-                  <span className="home-terminal__cursor home-terminal__cursor--line" aria-hidden="true">
-                    _
-                  </span>
-                ) : null}
-              </p>
-            );
-          })}
+          {terminalEntries.map((entry, index) => (
+            <p key={`terminal-line-${entry.tone}-${index}`} className={`home-terminal__line home-terminal__line--${entry.tone}`}>
+              {entry.text}
+            </p>
+          ))}
         </div>
 
         <div className="home-terminal__social" aria-label="social-links">
