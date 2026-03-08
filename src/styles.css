@@ -86,20 +86,19 @@ html {
 
 .topbar {
   position: fixed;
-  top: 0;
+  top: -10px;
   left: 0;
   right: 0;
   z-index: 50;
   opacity: 0;
   pointer-events: none;
-  transform: translateY(-10px);
-  transition: opacity 0.3s ease, transform 0.3s ease;
+  transition: opacity 0.3s ease, top 0.3s ease;
 }
 
 .topbar.is-visible {
   opacity: 1;
   pointer-events: auto;
-  transform: translateY(0);
+  top: 0;
 }
 
 .topbar__fade {
@@ -217,6 +216,12 @@ html {
 
 .topbar__nav-wrap {
   overflow-x: auto;
+}
+
+.topbar__mobile-menu {
+  display: none;
+  align-items: center;
+  margin-left: auto;
 }
 
 .topbar__nav {
@@ -954,6 +959,14 @@ html {
 @media (max-width: 1024px) {
   .topbar__inner {
     width: calc(100% - 2rem);
+  }
+
+  .topbar__nav-wrap--desktop {
+    display: none;
+  }
+
+  .topbar__mobile-menu {
+    display: flex;
   }
 }
 

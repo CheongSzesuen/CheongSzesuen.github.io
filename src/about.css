@@ -109,10 +109,6 @@
 }
 
 @media (max-width: 768px) {
-  .about-section__title {
-    justify-content: center;
-  }
-
   .about-section__copy {
     text-align: left;
   }
