@@ -22,6 +22,15 @@ const mobileSocialItems: StaggeredMenuSocialItem[] = [
   { label: "BandBBS", link: "https://www.bandbbs.cn/members/344224/" }
 ];
 
+const friendsLinks = [
+  {
+    name: "Zaona",
+    url: "https://zaona.top/",
+    avatar: "https://zaona.top/avatar.png",
+    description: ""
+  }
+] as const;
+
 function App() {
   const [activeSection, setActiveSection] = useState<(typeof navItems)[number]["id"]>("home");
   const [showHeader, setShowHeader] = useState(false);
@@ -278,7 +287,34 @@ function App() {
         </section>
         <section id="friends" className="anchor-section">
           <h2>Friends</h2>
-          <p>这里是友链区块，后续按你的指令填充列表与交互。</p>
+          <div className="friends-grid" aria-label="friends-links">
+            {friendsLinks.map((friend, index) => (
+              <a
+                key={`${friend.name}-${friend.url}`}
+                href={friend.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="friend-card"
+                style={{ animationDelay: `${index * 0.1}s` }}
+              >
+                <div className="friend-card__inner">
+                  <div className="friend-card__avatar-wrap">
+                    <img
+                      className="friend-card__avatar"
+                      src={friend.avatar}
+                      alt={friend.name}
+                      loading="lazy"
+                      decoding="async"
+                    />
+                  </div>
+                  <div className="friend-card__meta">
+                    <h3 className="friend-card__name">{friend.name}</h3>
+                    {friend.description ? <p className="friend-card__desc">{friend.description}</p> : null}
+                  </div>
+                </div>
+              </a>
+            ))}
+          </div>
         </section>
       </main>
 
