@@ -1,4 +1,12 @@
-import { useCallback, useEffect, useLayoutEffect, useRef, useState, type CSSProperties } from "react";
+import {
+  useCallback,
+  useEffect,
+  useLayoutEffect,
+  useRef,
+  useState,
+  type CSSProperties,
+  type MouseEvent as ReactMouseEvent
+} from "react";
 import { gsap } from "gsap";
 import "./StaggeredMenu.css";
 
@@ -248,6 +256,40 @@ function StaggeredMenu({
     setMenuOpen(!openRef.current);
   }, [setMenuOpen]);
 
+  const smoothScrollToHash = useCallback((hashLink: string) => {
+    if (!hashLink.startsWith("#")) return;
+    const sectionId = hashLink.slice(1);
+    if (!sectionId) return;
+    const section = document.getElementById(sectionId);
+    if (!section) return;
+
+    const scrollOffset = window.innerWidth <= 1024 ? 94 : 108;
+    const targetTop = Math.max(0, section.getBoundingClientRect().top + window.scrollY - scrollOffset);
+
+    window.requestAnimationFrame(() => {
+      window.requestAnimationFrame(() => {
+        window.scrollTo({
+          top: targetTop,
+          behavior: "smooth"
+        });
+      });
+    });
+  }, []);
+
+  const handleMenuItemClick = useCallback(
+    (event: ReactMouseEvent<HTMLAnchorElement>, link: string) => {
+      if (!link.startsWith("#")) {
+        closeMenu();
+        return;
+      }
+
+      event.preventDefault();
+      closeMenu();
+      smoothScrollToHash(link);
+    },
+    [closeMenu, smoothScrollToHash]
+  );
+
   useEffect(() => {
     if (!hasMountedRef.current) {
       hasMountedRef.current = true;
@@ -367,7 +409,12 @@ function StaggeredMenu({
           <ul className="sm-panel-list" role="list">
             {items.map((item, idx) => (
               <li key={`${item.link}-${idx}`}>
-                <a href={item.link} aria-label={item.ariaLabel} className="sm-panel-item" onClick={closeMenu}>
+                <a
+                  href={item.link}
+                  aria-label={item.ariaLabel}
+                  className="sm-panel-item"
+                  onClick={(event) => handleMenuItemClick(event, item.link)}
+                >
                   <span className="sm-panel-itemLabel">{item.label}</span>
                   {displayItemNumbering && <span className="sm-panel-itemNumber">{String(idx + 1).padStart(2, "0")}</span>}
                 </a>
