@@ -3,6 +3,7 @@ import HomeTerminal from "./components/HomeTerminal";
 import SiteFooter from "./components/SiteFooter";
 import StaggeredMenu, { type StaggeredMenuItem, type StaggeredMenuSocialItem } from "./components/StaggeredMenu";
 import { aboutContent } from "./content/about";
+import { friendsLinks } from "./content/friends";
 
 const navItems = [
   { id: "home", label: "HOME", href: "#home" },
@@ -22,15 +23,6 @@ const mobileSocialItems: StaggeredMenuSocialItem[] = [
   { label: "GitHub", link: "https://github.com/CheongSzesuen" },
   { label: "BandBBS", link: "https://www.bandbbs.cn/members/344224/" }
 ];
-
-const friendsLinks = [
-  {
-    name: "Zaona",
-    url: "https://zaona.top/",
-    avatar: "https://zaona.top/avatar.png",
-    description: "Explore The Edge Of Imagination"
-  }
-] as const;
 
 function App() {
   const [activeSection, setActiveSection] = useState<(typeof navItems)[number]["id"]>("home");
