@@ -4,7 +4,7 @@
 }
 
 .home-terminal__social-link:hover {
-  transform: scale(1.12);
+  transform: scale(1.16);
   background: color-mix(in srgb, var(--social-color) 18%, transparent);
 }
 
@@ -13,7 +13,7 @@
 }
 
 .home-terminal__social-link:hover .home-terminal__social-icon {
-  transform: scale(1.08);
+  transform: scale(1.12);
 }
 
 .home-terminal__action {
