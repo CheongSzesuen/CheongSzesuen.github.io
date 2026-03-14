@@ -670,6 +670,7 @@ function HomeTerminal() {
               <span
                 className={`home-terminal__action-icon ${action.icon === "mail" ? "is-mail" : ""}`}
                 aria-hidden="true"
+                style={action.external ? { filter: "none" } : undefined}
               >
                 {renderActionIcon(action.icon)}
               </span>
