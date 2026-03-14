@@ -17,7 +17,7 @@ const friendsLinkSource: FriendLinkSource[] = [
     url: "https://zaona.top/",
     avatar: "https://zaona.top/avatar.png",
     description: {
-      zh: "探索想象力的边界",
+      zh: "Explore The Edge Of Imagination",
       en: "Explore The Edge Of Imagination"
     }
   }
