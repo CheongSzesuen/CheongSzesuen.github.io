@@ -35,6 +35,7 @@ type ActionLink = {
   label: string;
   icon: "arrow" | "mail";
   emphasis?: boolean;
+  external?: boolean;
 };
 
 const quoteOptions = ["Stay Hungry,Stay Foolish.", "Open source drives development."] as const;
@@ -73,7 +74,7 @@ const actionLinks: ActionLink[] = [
   { href: "#about", label: "About", icon: "arrow" },
   { href: "#works", label: "Works", icon: "arrow" },
   { href: "#friends", label: "Friends", icon: "arrow" },
-  { href: "mailto:WaiJade@outlook.com", label: "Get in Touch", icon: "mail", emphasis: true }
+  { href: "https://blog.waijade.cn", label: "BLOG", icon: "arrow", emphasis: true, external: true }
 ] as const;
 
 const fallbackAscii = [
@@ -662,6 +663,8 @@ function HomeTerminal() {
               key={action.label}
               className={`home-terminal__action ${action.emphasis ? "is-emphasis" : ""}`}
               href={action.href}
+              target={action.external ? "_blank" : undefined}
+              rel={action.external ? "noreferrer" : undefined}
             >
               <span className="home-terminal__action-label">{action.label}</span>
               <span
