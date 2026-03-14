@@ -29,11 +29,8 @@
   z-index: -1;
   border-radius: 999px;
   opacity: 0;
-  background:
-    radial-gradient(circle at 24% 20%, rgba(255, 255, 255, 0.24), transparent 48%),
-    radial-gradient(circle at 78% 18%, rgba(120, 200, 255, 0.22), transparent 44%),
-    radial-gradient(circle at 50% 70%, rgba(255, 255, 255, 0.1), transparent 56%);
-  filter: blur(18px);
+  background: rgba(255, 255, 255, 0.16);
+  filter: blur(14px);
   transform: scale(0.92);
   transition: opacity 0.25s ease, transform 0.25s ease;
   pointer-events: none;
