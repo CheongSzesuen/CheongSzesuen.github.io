@@ -8,7 +8,7 @@ export type AboutContent = {
   paragraphs: string[];
 };
 
-const FRONTMATTER_PATTERN = /^---\s*\n([\s\S]*?)\n---\s*\n?/;
+const FRONTMATTER_PATTERN = /^\s*---\s*\n([\s\S]*?)\n\s*---\s*\n?/;
 const FRONTMATTER_LINE_PATTERN = /^([a-zA-Z][\w-]*):\s*(.*)$/;
 const PARAGRAPH_PATTERN = /<p>([\s\S]*?)<\/p>/g;
 
