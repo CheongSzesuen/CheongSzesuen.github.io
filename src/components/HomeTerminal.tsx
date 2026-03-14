@@ -594,7 +594,7 @@ function HomeTerminal() {
 
         <h1 className="home-terminal__title">
           <span className="home-terminal__title-mark">&gt;</span>
-          <span>WaiJade</span>
+          <span className="home-terminal__title-text">WaiJade</span>
           <span className="home-terminal__cursor" aria-hidden="true">
             _
           </span>

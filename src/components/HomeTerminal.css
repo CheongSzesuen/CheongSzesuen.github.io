@@ -3,6 +3,10 @@
   transition: transform 0.3s ease, background-color 0.3s ease;
 }
 
+.home-terminal__title-text {
+  font-family: "Ubuntu Mono", "JetBrains Mono", "Fira Code", "Source Code Pro", monospace;
+}
+
 .home-terminal__social-link:hover {
   transform: scale(1.16);
   background: color-mix(in srgb, var(--social-color) 18%, transparent);
