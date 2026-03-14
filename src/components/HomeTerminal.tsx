@@ -39,7 +39,11 @@ type ActionLink = {
   external?: boolean;
 };
 
-const quoteOptions = ["Stay Hungry,Stay Foolish.", "Open source drives development."] as const;
+const quoteOptions = [
+  "Stay Hungry,Stay Foolish.",
+  "Open source drives development.",
+  "Long live open source!"
+] as const;
 const socialLinks: SocialLink[] = [
   {
     href: "mailto:waijade@outlook.com",
