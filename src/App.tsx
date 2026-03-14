@@ -2,8 +2,11 @@ import { useEffect, useRef, useState } from "react";
 import HomeTerminal from "./components/HomeTerminal";
 import SiteFooter from "./components/SiteFooter";
 import StaggeredMenu, { type StaggeredMenuItem, type StaggeredMenuSocialItem } from "./components/StaggeredMenu";
-import { aboutContent } from "./content/about";
-import { friendsLinks } from "./content/friends";
+import { getAboutContent } from "./content/about";
+import { getFriendsLinks } from "./content/friends";
+import { getFriendsSectionContent } from "./content/friends-section";
+import { detectPreferredLocale, LOCALE_CHANGE_EVENT, type Locale } from "./content/locale";
+import { getWorksContent } from "./content/works";
 
 const navItems = [
   { id: "home", label: "HOME", href: "#home" },
@@ -26,6 +29,11 @@ const mobileSocialItems: StaggeredMenuSocialItem[] = [
 ];
 
 function App() {
+  const [locale, setLocale] = useState<Locale>(() => detectPreferredLocale());
+  const aboutContent = getAboutContent(locale);
+  const worksContent = getWorksContent(locale);
+  const friendsSectionContent = getFriendsSectionContent(locale);
+  const friendsLinks = getFriendsLinks(locale);
   const [activeSection, setActiveSection] = useState<(typeof navItems)[number]["id"]>("home");
   const [showHeader, setShowHeader] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -35,6 +43,17 @@ function App() {
   useEffect(() => {
     mobileMenuOpenRef.current = isMobileMenuOpen;
   }, [isMobileMenuOpen]);
+
+  useEffect(() => {
+    const syncLocale = () => {
+      setLocale(detectPreferredLocale());
+    };
+
+    window.addEventListener(LOCALE_CHANGE_EVENT, syncLocale);
+    return () => {
+      window.removeEventListener(LOCALE_CHANGE_EVENT, syncLocale);
+    };
+  }, []);
 
   useEffect(() => {
     const sections = navItems
@@ -259,11 +278,12 @@ function App() {
           </div>
         </section>
         <section id="works" className="anchor-section">
-          <h2>Works</h2>
-          <p>这里是作品区块，后续按你的指令填充项目卡片与详情。</p>
+          <h2>{worksContent.title}</h2>
+          <p>{worksContent.body}</p>
         </section>
         <section id="friends" className="anchor-section">
-          <h2>Friends</h2>
+          <h2>{friendsSectionContent.title}</h2>
+          <p>{friendsSectionContent.body}</p>
           <div className="friends-grid" aria-label="friends-links">
             {friendsLinks.map((friend, index) => (
               <a

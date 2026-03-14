@@ -1,4 +1,6 @@
-import aboutSource from "./about.mdx?raw";
+import aboutEnSource from "./about.en.mdx?raw";
+import aboutZhSource from "./about.zh.mdx?raw";
+import type { Locale } from "./locale";
 
 export type AboutContent = {
   title: string;
@@ -66,4 +68,11 @@ function parseAboutContent(raw: string): AboutContent {
   };
 }
 
-export const aboutContent = parseAboutContent(aboutSource);
+const aboutContentByLocale: Record<Locale, AboutContent> = {
+  zh: parseAboutContent(aboutZhSource),
+  en: parseAboutContent(aboutEnSource)
+};
+
+export function getAboutContent(locale: Locale): AboutContent {
+  return aboutContentByLocale[locale];
+}
