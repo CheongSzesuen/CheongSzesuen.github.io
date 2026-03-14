@@ -5,8 +5,20 @@ import StaggeredMenu, { type StaggeredMenuItem, type StaggeredMenuSocialItem } f
 import { getAboutContent } from "./content/about";
 import { getFriendsLinks } from "./content/friends";
 import { getFriendsSectionContent } from "./content/friends-section";
-import { detectPreferredLocale, LOCALE_CHANGE_EVENT, type Locale } from "./content/locale";
+import {
+  clearSessionLocaleOverride,
+  detectPreferredLocale,
+  LOCALE_CHANGE_EVENT,
+  setSessionLocaleOverride,
+  type Locale
+} from "./content/locale";
 import { getWorksContent } from "./content/works";
+
+declare global {
+  interface Window {
+    __setLocale?: (locale: Locale | null) => void;
+  }
+}
 
 const navItems = [
   { id: "home", label: "HOME", href: "#home" },
@@ -50,8 +62,19 @@ function App() {
     };
 
     window.addEventListener(LOCALE_CHANGE_EVENT, syncLocale);
+    window.__setLocale = (nextLocale) => {
+      if (nextLocale) {
+        setSessionLocaleOverride(nextLocale);
+      } else {
+        clearSessionLocaleOverride();
+      }
+
+      setLocale(detectPreferredLocale());
+    };
+
     return () => {
       window.removeEventListener(LOCALE_CHANGE_EVENT, syncLocale);
+      delete window.__setLocale;
     };
   }, []);
 

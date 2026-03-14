@@ -1,4 +1,5 @@
 export type Locale = "zh" | "en";
+export type LocaleChangeDetail = Locale | null;
 
 export const LOCALE_SESSION_KEY = "waijade-locale";
 export const LOCALE_CHANGE_EVENT = "waijade:locale-change";
@@ -56,4 +57,30 @@ export function detectPreferredLocale(): Locale {
   }
 
   return "en";
+}
+
+function dispatchLocaleChange(detail: LocaleChangeDetail) {
+  if (typeof window === "undefined") {
+    return;
+  }
+
+  window.dispatchEvent(new CustomEvent<LocaleChangeDetail>(LOCALE_CHANGE_EVENT, { detail }));
+}
+
+export function setSessionLocaleOverride(locale: Locale) {
+  if (typeof window === "undefined") {
+    return;
+  }
+
+  window.sessionStorage.setItem(LOCALE_SESSION_KEY, locale);
+  dispatchLocaleChange(locale);
+}
+
+export function clearSessionLocaleOverride() {
+  if (typeof window === "undefined") {
+    return;
+  }
+
+  window.sessionStorage.removeItem(LOCALE_SESSION_KEY);
+  dispatchLocaleChange(null);
 }
