@@ -20,6 +20,7 @@ const mobileMenuItems: StaggeredMenuItem[] = [
 ];
 
 const mobileSocialItems: StaggeredMenuSocialItem[] = [
+  { label: "BLOG", link: "https://blog.waijade.cn" },
   { label: "GitHub", link: "https://github.com/CheongSzesuen" },
   { label: "BandBBS", link: "https://www.bandbbs.cn/members/344224/" }
 ];
@@ -174,19 +175,41 @@ function App() {
           </a>
 
           <nav className="topbar__nav-wrap topbar__nav-wrap--desktop" aria-label="主导航">
-            <ul className="topbar__nav">
-              {navItems.map((item) => (
-                <li key={item.href}>
-                  <a
-                    className={activeSection === item.id ? "is-active" : ""}
-                    href={item.href}
-                    aria-current={activeSection === item.id ? "page" : undefined}
-                  >
-                    {item.label}
-                  </a>
-                </li>
-              ))}
-            </ul>
+            <div style={{ display: "flex", alignItems: "center", gap: "12px" }}>
+              <ul className="topbar__nav">
+                {navItems.map((item) => (
+                  <li key={item.href}>
+                    <a
+                      className={activeSection === item.id ? "is-active" : ""}
+                      href={item.href}
+                      aria-current={activeSection === item.id ? "page" : undefined}
+                    >
+                      {item.label}
+                    </a>
+                  </li>
+                ))}
+              </ul>
+              <a
+                className="home-terminal__action is-emphasis"
+                href="https://blog.waijade.cn"
+                target="_blank"
+                rel="noreferrer"
+                style={{ animation: "none", padding: "0.6rem 1rem", fontSize: "0.84rem" }}
+              >
+                <span className="home-terminal__action-label">BLOG</span>
+                <span className="home-terminal__action-icon" aria-hidden="true">
+                  <svg viewBox="0 0 24 24" aria-hidden="true">
+                    <g fill="none">
+                      <path d="M24 0v24H0V0zM12.593 23.258l-.011.002l-.071.035l-.02.004l-.014-.004l-.071-.035q-.016-.005-.024.005l-.004.01l-.017.428l.005.02l.01.013l.104.074l.015.004l.012-.004l.104-.074l.012-.016l.004-.017l-.017-.427q-.004-.016-.017-.018m.265-.113l-.013.002l-.185.093l-.01.01l-.003.011l.018.43l.005.012l.008.007l.201.093q.019.005.029-.008l.004-.014l-.034-.614q-.005-.019-.02-.022m-.715.002a.02.02 0 0 0-.027.006l-.006.014l-.034.614q.001.018.017.024l.015-.002l.201-.093l.01-.008l.004-.011l.017-.43l-.003-.012l-.01-.01z" />
+                      <path
+                        fill="currentColor"
+                        d="m15.06 5.283l5.657 5.657a1.5 1.5 0 0 1 0 2.12l-5.656 5.658a1.5 1.5 0 0 1-2.122-2.122l3.096-3.096H4.5a1.5 1.5 0 0 1 0-3h11.535L12.94 7.404a1.5 1.5 0 0 1 2.122-2.121Z"
+                      />
+                    </g>
+                  </svg>
+                </span>
+              </a>
+            </div>
           </nav>
 
           <div className="topbar__mobile-menu" aria-label="移动端导航">
