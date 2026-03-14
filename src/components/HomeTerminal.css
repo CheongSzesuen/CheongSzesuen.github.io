@@ -3,6 +3,15 @@
   transition: transform 0.3s ease, background-color 0.3s ease;
 }
 
+.home-terminal__quote-text {
+  display: inline-flex;
+  align-items: center;
+}
+
+.home-terminal__quote-cursor {
+  color: #8fd0ff;
+}
+
 .home-terminal__title-text {
   font-family: "Ubuntu Mono", "JetBrains Mono", "Fira Code", "Source Code Pro", monospace;
 }

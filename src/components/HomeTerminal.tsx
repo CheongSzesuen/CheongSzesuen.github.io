@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useRef, useState, type CSSProperties } from "react";
+import TextType from "./TextType";
 
 type AsciiCell = {
   glyph: string;
@@ -39,7 +40,6 @@ type ActionLink = {
 };
 
 const quoteOptions = ["Stay Hungry,Stay Foolish.", "Open source drives development."] as const;
-
 const socialLinks: SocialLink[] = [
   {
     href: "mailto:waijade@outlook.com",
@@ -333,16 +333,13 @@ function renderActionIcon(icon: ActionLink["icon"]) {
 }
 
 function HomeTerminal() {
-  const [randomQuote] = useState(
-    () => quoteOptions[Math.floor(Math.random() * quoteOptions.length)]
-  );
   const terminalEntries = useMemo<TerminalEntry[]>(
     () => [
       { text: "[ Frontend Developer ]", tone: "role" },
-      { text: randomQuote, tone: "quote" },
+      { text: "", tone: "quote" },
       { text: "// VibeCoding Enjoyer", tone: "note" }
     ],
-    [randomQuote]
+    []
   );
   const [asciiRows, setAsciiRows] = useState<AsciiCell[][]>([]);
   const [asciiMarkup, setAsciiMarkup] = useState<string | null>(null);
@@ -606,7 +603,21 @@ function HomeTerminal() {
               {entry.tone === "quote" ? (
                 <span className="home-terminal__quote-wrap">
                   <span className="home-terminal__quote-bar" aria-hidden="true" />
-                  <span className="home-terminal__quote-text">"{entry.text}"</span>
+                  <span className="home-terminal__quote-text">
+                    "
+                    <TextType
+                      as="span"
+                      className="home-terminal__quote-type"
+                      text={[...quoteOptions]}
+                      typingSpeed={75}
+                      pauseDuration={1500}
+                      deletingSpeed={50}
+                      showCursor
+                      cursorCharacter="_"
+                      cursorClassName="home-terminal__quote-cursor"
+                    />
+                    "
+                  </span>
                 </span>
               ) : (
                 entry.text
