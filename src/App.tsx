@@ -37,6 +37,7 @@ const mobileMenuItems: StaggeredMenuItem[] = [
 const mobileSocialItems: StaggeredMenuSocialItem[] = [
   { label: "BLOG", link: "https://blog.waijade.cn" },
   { label: "GitHub", link: "https://github.com/CheongSzesuen" },
+  { label: "爱发电", link: "https://afdian.com/a/waijade" },
   { label: "BandBBS", link: "https://www.bandbbs.cn/members/344224/" }
 ];
 

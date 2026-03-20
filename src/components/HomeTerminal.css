@@ -29,6 +29,11 @@
   transform: scale(1.12);
 }
 
+.home-terminal__social-icon svg[data-icon="afdian"] {
+  transform: scale(1.18);
+  transform-origin: center;
+}
+
 .home-terminal__action {
   position: relative;
   isolation: isolate;
