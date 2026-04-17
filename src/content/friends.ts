@@ -29,6 +29,15 @@ const friendsLinkSource: FriendLinkSource[] = [
       zh: "hrsthrt74的博客",
       en: "hrsthrt74's Blog"
     }
+  },
+  {
+    name: "OrPudding",
+    url: "https://orpu.moe/",
+    avatar: "https://orpu.moe/upload/F337D8E876660646C6C3675320A2ABFD.webp",
+    description: {
+      zh: "OrPudding的博客",
+      en: "OrPudding's Blog"
+    }
   }
 ];
 
