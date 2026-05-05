@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import HomeTerminal from "./components/HomeTerminal";
+import SEO from "./components/SEO";
 import SiteFooter from "./components/SiteFooter";
 import StaggeredMenu, { type StaggeredMenuItem, type StaggeredMenuSocialItem } from "./components/StaggeredMenu";
 import { getAboutContent } from "./content/about";
@@ -203,6 +204,7 @@ function App() {
 
   return (
     <div className="page">
+      <SEO locale={locale} />
       <div className="page__bg" aria-hidden="true">
         <div className="hero__grid" />
         <div className="hero__glow" />
