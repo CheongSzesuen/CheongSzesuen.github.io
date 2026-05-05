@@ -432,6 +432,54 @@ function HomeTerminal() {
   useEffect(() => {
     let canceled = false;
 
+    const cacheKey = "avatar-cache";
+
+    const saveCache = (type: "html" | "json", data: string) => {
+      try {
+        localStorage.setItem(cacheKey, JSON.stringify({ type, data }));
+      } catch {
+        // localStorage not available or quota exceeded
+      }
+    };
+
+    const loadFromCache = (): boolean => {
+      try {
+        const raw = localStorage.getItem(cacheKey);
+        if (!raw) return false;
+        const cache = JSON.parse(raw);
+        if (typeof cache !== "object" || !cache) return false;
+
+        if (cache.type === "html" && typeof cache.data === "string") {
+          const parsedHtml = parseHtmlAvatarPayload(cache.data);
+          if (!parsedHtml) return false;
+          if (canceled) return true;
+          const baseLineHeight = 1;
+          const squareCellWidth = (parsedHtml.height * baseLineHeight) / parsedHtml.width;
+          const baseCellWidth = Math.max(0.2, Math.min(1, squareCellWidth));
+          setAsciiStyle({
+            "--ascii-line-height": baseLineHeight.toFixed(4),
+            "--ascii-cell-width": `${baseCellWidth.toFixed(4)}em`
+          } as CSSProperties);
+          setAsciiRows([]);
+          setAsciiMarkup(parsedHtml.markup);
+          setAvatarGridSize({ rows: parsedHtml.height, cols: parsedHtml.width });
+          return true;
+        }
+
+        if (cache.type === "json" && typeof cache.data === "string") {
+          const payload: AnsiAvatarPayload = JSON.parse(cache.data);
+          if (!Array.isArray(payload.rows) || payload.rows.length === 0) return false;
+          if (canceled) return true;
+          setAsciiMarkup(null);
+          setAsciiRows(parseAvatarPayload(payload));
+          return true;
+        }
+      } catch {
+        // invalid cache
+      }
+      return false;
+    };
+
     const loadAvatar = async () => {
       try {
         const htmlResponse = await fetch("/ansi-avatar-source.html");
@@ -440,6 +488,7 @@ function HomeTerminal() {
           const parsedHtml = parseHtmlAvatarPayload(rawHtml);
           if (parsedHtml) {
             if (canceled) return;
+            saveCache("html", rawHtml);
             const baseLineHeight = 1;
             const squareCellWidth = (parsedHtml.height * baseLineHeight) / parsedHtml.width;
             const baseCellWidth = Math.max(0.2, Math.min(1, squareCellWidth));
@@ -469,6 +518,7 @@ function HomeTerminal() {
           throw new Error("Invalid avatar rows");
         }
         if (canceled) return;
+        saveCache("json", JSON.stringify(payload));
         setAsciiMarkup(null);
         setAsciiRows(parseAvatarPayload(payload));
       } catch {
@@ -479,7 +529,9 @@ function HomeTerminal() {
       }
     };
 
-    loadAvatar();
+    if (!loadFromCache()) {
+      loadAvatar();
+    }
 
     return () => {
       canceled = true;

@@ -1097,6 +1097,7 @@ html {
 
   .home-terminal__ascii-wrap {
     justify-content: center;
+    min-height: 130px;
   }
 
   .home-terminal__ascii {
