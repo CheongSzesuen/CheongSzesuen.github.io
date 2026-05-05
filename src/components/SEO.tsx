@@ -1,7 +1,7 @@
 import { Helmet } from "react-helmet-async";
 import type { Locale } from "../content/locale";
 
-const siteUrl = "https://cheongszesuen.github.io";
+const siteUrl = "https://waijade.cn";
 
 const seoData: Record<Locale, {
   title: string;

@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://cheongszesuen.github.io/sitemap.xml
+Sitemap: https://waijade.cn/sitemap.xml
